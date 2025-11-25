@@ -52,7 +52,7 @@ const featuredVehicles: Vehicle[] = [
 ]
 
 export default function Home() {
-  const [email, setEmail] = useState<string>("")
+  const [email, setEmail] = useState<string>("");
 
   return (
     <div className="min-h-screen bg-background">
