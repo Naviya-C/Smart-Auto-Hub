@@ -5,6 +5,7 @@ import { Header } from "@/components/Header"
 import { Footer } from "@/components/Footer"
 import { Button } from "@/components/ui/button"
 import { Calendar, Clock, User, MapPin, MessageSquare } from 'lucide-react'
+import ChatBot from "@/components/ChatBot"
 
 export default function ConsultationPage() {
   const [formData, setFormData] = useState({
@@ -49,31 +50,32 @@ export default function ConsultationPage() {
 
       {/* Hero Section */}
       <section
-        className="relative h-80 bg-gradient-to-r from-primary via-primary/90 to-secondary text-primary-foreground flex items-center"
+        className="relative h-96 bg-gradient-to-r from-primary via-primary/90 to-secondary text-primary-foreground flex items-center mb-24"
         style={{
-          backgroundImage: "url(/placeholder.svg?height=320&width=1200&query=professional consultation meeting)",
+          backgroundImage:
+            "url(/placeholder.svg?height=384&width=1600&query=professional car consultation advisor customer meeting)",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60"></div>
         <div className="relative max-w-7xl mx-auto px-4 w-full">
-          <h1 className="text-5xl font-bold mb-4 text-balance">Book a Consultation</h1>
-          <p className="text-xl opacity-90 text-balance">
+          <h1 className="text-6xl font-bold mb-4 text-balance">Book a Consultation</h1>
+          <p className="text-xl opacity-90 text-balance max-w-2xl">
             Connect with our technical experts for personalized vehicle guidance and advice.
           </p>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 py-16">
+      <div className="max-w-7xl mx-auto px-4 pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Consultation Benefits */}
           <div className="lg:col-span-1 space-y-6">
-            <div className="bg-card rounded-lg p-6 border border-border">
+            <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition">
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary/10">
-                    <User className="text-primary" size={24} />
+                  <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-500/10">
+                    <User className="text-blue-600" size={24} />
                   </div>
                 </div>
                 <div>
@@ -85,11 +87,11 @@ export default function ConsultationPage() {
               </div>
             </div>
 
-            <div className="bg-card rounded-lg p-6 border border-border">
+            <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition">
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary/10">
-                    <Clock className="text-primary" size={24} />
+                  <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-green-500/10">
+                    <Clock className="text-green-600" size={24} />
                   </div>
                 </div>
                 <div>
@@ -101,11 +103,11 @@ export default function ConsultationPage() {
               </div>
             </div>
 
-            <div className="bg-card rounded-lg p-6 border border-border">
+            <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition">
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary/10">
-                    <MapPin className="text-primary" size={24} />
+                  <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-purple-500/10">
+                    <MapPin className="text-purple-600" size={24} />
                   </div>
                 </div>
                 <div>
@@ -120,8 +122,8 @@ export default function ConsultationPage() {
 
           {/* Consultation Form */}
           <div className="lg:col-span-2">
-            <div className="bg-card rounded-lg p-8 border border-border">
-              <h2 className="text-2xl font-bold mb-6">Schedule Your Consultation</h2>
+            <div className="bg-card rounded-lg p-8 border border-border shadow-sm">
+              <h2 className="text-3xl font-bold mb-6">Schedule Your Consultation</h2>
 
               {submitted && (
                 <div className="mb-6 p-4 rounded-lg bg-green-50 border border-green-200">
@@ -131,7 +133,7 @@ export default function ConsultationPage() {
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Full Name */}
                 <div>
                   <label className="block text-sm font-semibold mb-2">Full Name *</label>
@@ -142,7 +144,7 @@ export default function ConsultationPage() {
                     onChange={handleChange}
                     required
                     placeholder="John Doe"
-                    className="w-full px-4 py-3 rounded bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
                   />
                 </div>
 
@@ -156,8 +158,8 @@ export default function ConsultationPage() {
                     onChange={handleChange}
                     required
                     placeholder="john@example.com"
-                    className="w-full px-4 py-3 rounded bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
+                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
+                    />
                 </div>
 
                 {/* Phone */}
@@ -170,7 +172,7 @@ export default function ConsultationPage() {
                     onChange={handleChange}
                     required
                     placeholder="0771234567"
-                    className="w-full px-4 py-3 rounded bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
                   />
                 </div>
 
@@ -182,7 +184,7 @@ export default function ConsultationPage() {
                     value={formData.vehicleType}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded bg-input border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                   >
                     <option value="">Select a vehicle type</option>
                     <option value="sedan">Sedan</option>
@@ -223,7 +225,7 @@ export default function ConsultationPage() {
                     value={formData.preferredDate}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
 
@@ -235,7 +237,7 @@ export default function ConsultationPage() {
                     value={formData.preferredTime}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded bg-input border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                   >
                     <option value="">Select a time slot</option>
                     <option value="09:00-10:00">09:00 - 10:00 AM</option>
@@ -256,7 +258,7 @@ export default function ConsultationPage() {
                     onChange={handleChange}
                     placeholder="Tell us more about your needs..."
                     rows="4"
-                    className="w-full px-4 py-3 rounded bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                   />
                 </div>
 
@@ -272,9 +274,7 @@ export default function ConsultationPage() {
       </div>
 
       {/* Chatbot Icon */}
-      <div className="fixed bottom-6 right-6 bg-primary text-primary-foreground rounded-full p-4 shadow-lg cursor-pointer hover:scale-110 transition">
-          <MessageSquare size={32} />
-      </div>
+      <ChatBot />
 
       <Footer />
     </div>

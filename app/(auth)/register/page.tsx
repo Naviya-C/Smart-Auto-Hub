@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
+import ChatBot from "@/components/ChatBot";
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -147,6 +148,7 @@ export default function RegisterPage() {
                     </span>
                 </p>
             </div>
+            <ChatBot />
         </main>
     );
 }

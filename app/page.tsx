@@ -12,6 +12,7 @@ import {handleSubscribe} from "@/app/APITriggers/handleSubscribe";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import ChatBot from "@/components/ChatBot"
 
 
 interface Vehicle {
@@ -479,9 +480,8 @@ export default function Home() {
       </section>
 
       {/* Chatbot Icon */}
-      <div className="fixed bottom-6 right-6 bg-primary text-primary-foreground rounded-full p-4 shadow-lg cursor-pointer hover:scale-110 transition">
-        <MessageSquare size={32} />
-      </div>
+      <ChatBot />
+
 
       <Footer />
     </div>

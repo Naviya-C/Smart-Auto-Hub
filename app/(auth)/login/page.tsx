@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
+import ChatBot from "@/components/ChatBot";
 
 export default function LoginPage() {
 
@@ -99,6 +100,7 @@ export default function LoginPage() {
                 </div>
 
             </div>
+            <ChatBot />
         </main>
     );
 }

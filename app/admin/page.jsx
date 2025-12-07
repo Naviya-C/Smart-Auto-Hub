@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Plus, Search, Filter, MoreVertical, Eye, Edit, Trash2, Users, Car, Calendar, Mail, TrendingUp, MapPin, CheckCircle, XCircle, Clock, FileText, Video, ExternalLink } from 'lucide-react'
 import NewsletterTable from "./NewsletterTable";
+import ChatBot from "@/components/ChatBot"
 
 const stats = [
   { 
@@ -597,7 +598,7 @@ export default function AdminPage() {
           )}
         </div>
       </div>
-
+      <ChatBot />
       <Footer />
     </div>
   )
