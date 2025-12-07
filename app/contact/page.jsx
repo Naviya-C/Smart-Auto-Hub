@@ -43,32 +43,33 @@ export default function ContactPage() {
 
       {/* Hero Section */}
       <section
-        className="relative h-80 bg-gradient-to-r from-primary via-primary/90 to-secondary text-primary-foreground flex items-center"
+        className="relative h-96 bg-gradient-to-r from-primary via-primary/90 to-secondary text-primary-foreground flex items-center mb-24"
         style={{
-          backgroundImage: "url(/placeholder.svg?height=320&width=1200&query=contact center customer service)",
+          backgroundImage:
+            "url(/placeholder.svg?height=384&width=1600&query=customer service representative contact center professional)",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60"></div>
         <div className="relative max-w-7xl mx-auto px-4 w-full">
-          <h1 className="text-5xl font-bold mb-4 text-balance">Contact Us</h1>
-          <p className="text-xl opacity-90 text-balance">
+          <h1 className="text-6xl font-bold mb-4 text-balance">Contact Us</h1>
+          <p className="text-xl opacity-90 text-balance max-w-2xl">
             Have questions? We're here to help. Reach out to our team anytime.
           </p>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 py-16">
+      <div className="max-w-7xl mx-auto px-4 pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Contact Information */}
           <div className="lg:col-span-1 space-y-6">
             {/* Main Office */}
-            <div className="bg-card rounded-lg p-6 border border-border">
+            <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition">
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary/10">
-                    <Building className="text-primary" size={24} />
+                  <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-amber-800/10">
+                    <Building className="text-amber-900" size={24} />
                   </div>
                 </div>
                 <div>
@@ -85,11 +86,11 @@ export default function ContactPage() {
             </div>
 
             {/* Phone */}
-            <div className="bg-card rounded-lg p-6 border border-border">
+            <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition">
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary/10">
-                    <Phone className="text-primary" size={24} />
+                  <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-500/10">
+                    <Phone className="text-blue-600" size={24} />
                   </div>
                 </div>
                 <div>
@@ -105,11 +106,11 @@ export default function ContactPage() {
             </div>
 
             {/* Email */}
-            <div className="bg-card rounded-lg p-6 border border-border">
+            <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition">
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary/10">
-                    <Mail className="text-primary" size={24} />
+                  <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-green-500/10">
+                    <Mail className="text-green-600" size={24} />
                   </div>
                 </div>
                 <div>
@@ -125,11 +126,11 @@ export default function ContactPage() {
             </div>
 
             {/* Business Hours */}
-            <div className="bg-card rounded-lg p-6 border border-border">
+            <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition">
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-md bg-primary/10">
-                    <Clock className="text-primary" size={24} />
+                  <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-purple-500/10">
+                    <Clock className="text-purple-600" size={24} />
                   </div>
                 </div>
                 <div>
@@ -216,7 +217,7 @@ export default function ContactPage() {
 
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <div className="bg-card rounded-lg p-8 border border-border">
+            <div className="bg-card rounded-lg p-8 border border-border shadow-sm">
               <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
 
               {submitted && (
@@ -227,7 +228,7 @@ export default function ContactPage() {
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Name */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -239,7 +240,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       required
                       placeholder="John Doe"
-                      className="w-full px-4 py-3 rounded bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
                     />
                   </div>
 
@@ -253,7 +254,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       required
                       placeholder="john@example.com"
-                      className="w-full px-4 py-3 rounded bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                      className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
                     />
                   </div>
                 </div>
@@ -267,7 +268,7 @@ export default function ContactPage() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="077 XXX XXXX"
-                    className="w-full px-4 py-3 rounded bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
                   />
                 </div>
 
@@ -279,8 +280,7 @@ export default function ContactPage() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded bg-input border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  >
+                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition">
                     <option value="">Select a subject</option>
                     <option value="general-inquiry">General Inquiry</option>
                     <option value="vehicle-inquiry">Vehicle Inquiry</option>
@@ -301,7 +301,7 @@ export default function ContactPage() {
                     required
                     placeholder="Tell us your message here..."
                     rows="6"
-                    className="w-full px-4 py-3 rounded bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                   />
                 </div>
 
@@ -350,8 +350,8 @@ export default function ContactPage() {
             </div>
 
             {/* FAQ Section */}
-            <div className="mt-8 bg-secondary/5 rounded-lg p-6">
-              <h3 className="font-bold text-lg mb-4">Frequently Asked Questions</h3>
+            <div className="mt-8 bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-lg p-6 border border-border">
+              <h3 className="font-bold text-xl mb-4">Frequently Asked Questions</h3>
               <div className="space-y-4">
                 <div>
                   <p className="font-semibold text-sm mb-2">What are your response times?</p>
