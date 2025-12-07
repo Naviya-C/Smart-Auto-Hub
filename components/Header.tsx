@@ -24,7 +24,7 @@ export function Header() {
   const pathname = usePathname();
 
   //MOCK AUTH
-  const isLoggedIn = false;
+  const isLoggedIn = true;
   const userRole = "admin";
   const isAdmin = true;
   const userName = "Kavindu";
@@ -111,7 +111,7 @@ export function Header() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-2 hover:opacity-80 transition">
-                  <Avatar className="h-10 w-10 border-2 border-primary">
+                  <Avatar className="h-10 w-10 border-3 border-b-green-400 border-t-primary border-l-yellow-500 border-r-orange-500">
                     <AvatarImage src="/placeholder.svg" alt={userName} />
                     <AvatarFallback className="bg-primary text-primary-foreground">
                       {getInitials(userName)}

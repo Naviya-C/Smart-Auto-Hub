@@ -5,7 +5,8 @@ import { Header } from "@/components/Header"
 import { Footer } from "@/components/Footer"
 import { Button } from "@/components/ui/button"
 import { Phone, Mail, MapPin, Clock, Send, MessageSquare, Building } from 'lucide-react'
-
+import ChatBot from "@/components/ChatBot"
+ 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -382,6 +383,7 @@ export default function ContactPage() {
             <MessageSquare size={32} />
         </div>
 
+      <ChatBot />        
       <Footer />
     </div>
   )

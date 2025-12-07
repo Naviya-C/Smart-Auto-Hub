@@ -5,6 +5,7 @@ import { Header } from "@/components/Header"
 import { Footer } from "@/components/Footer"
 import { Button } from "@/components/ui/button"
 import { Calendar, Clock, User, MapPin, MessageSquare } from 'lucide-react'
+import ChatBot from "@/components/ChatBot"
 
 export default function ConsultationPage() {
   const [formData, setFormData] = useState({
@@ -273,9 +274,7 @@ export default function ConsultationPage() {
       </div>
 
       {/* Chatbot Icon */}
-      <div className="fixed bottom-6 right-6 bg-primary text-primary-foreground rounded-full p-4 shadow-lg cursor-pointer hover:scale-110 transition">
-          <MessageSquare size={32} />
-      </div>
+      <ChatBot />
 
       <Footer />
     </div>
