@@ -20,6 +20,58 @@ export default function ConsultationPage() {
   })
 
   const [submitted, setSubmitted] = useState(false)
+  const [errors, setErrors] = useState({})
+  const [touched, setTouched] = useState({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if(!email) return "Email is required"
+    if(!emailRegex.test(email)) return "Please enter a valid email address"
+    return ""
+  }
+
+  const validatePhone = (phone) => {
+    if(!phone) return "Phone number is required"
+    const phoneRegex = /^0\d{9}$/
+    if(!phoneRegex.test(phone.replace(/\s/g, ""))) {
+      return "Please enter a valid Sri Lankan phone number (10 digits starting with 0)"
+    }
+    return ""
+  }
+
+  const validateData = (date) => {
+    if(!date) return "Preferred date is required"
+    const selectedDate = new Date(date)
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    if(selectedDate < today) {
+      return "Please select a future date"
+    }
+    return ""
+  }
+
+  const validateFeild = (name, value) => {
+    switch(name) {
+      case "fullName":
+        return !value ? "Full name is required" : ""
+      case "email":
+        return validateEmail(value)
+      case "phone":
+        return validatePhone(value)
+      case "vehicleType":
+        return !value ? "Please select a vehicle type" : ""
+      case "consultationType":
+        return !value ? "Please select a consultation type" : ""
+      case "preferredDate":
+        return validateDate(value)
+      case "preferredTime":
+        return !value ? "Please select a time slot" : ""
+      default:
+        return ""
+    }
+  }
+
 
   const handleChange = (e) => {
     const { name, value } = e.target
