@@ -6,6 +6,8 @@ import { Footer } from "@/components/Footer"
 import { Button } from "@/components/ui/button"
 import { Calendar, Clock, User, MapPin, MessageSquare } from 'lucide-react'
 import ChatBot from "@/components/ChatBot"
+import { resolve } from "path"
+import { setTimeout } from "timers/promises"
 
 export default function ConsultationPage() {
   const [formData, setFormData] = useState({
@@ -40,7 +42,7 @@ export default function ConsultationPage() {
     return ""
   }
 
-  const validateData = (date) => {
+  const validateDate = (date) => {
     if(!date) return "Preferred date is required"
     const selectedDate = new Date(date)
     const today = new Date()
@@ -76,11 +78,47 @@ export default function ConsultationPage() {
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+
+    if (touched[name]) {
+      const error = validateFeild(name, value)
+      setErrors((prev) => ({ ...prev, [name]: error}))
+    }
   }
 
-  const handleSubmit = (e) => {
+  const handleBlur = (e) => {
+    const {name, value} = e.target
+    setTouched((prev) => ({ ...prev, [name]: true}))
+    const error = validateFeild(name, value)
+    setErrors((prev) => ({ ...prev, [name]: error}))
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
+
+    const newErrors = {}
+    Object.keys(formData).forEach((key) => {
+      if(key !== "message") {
+        //message is optional
+        const error = validateFeild(key, formData[key])
+        if(error) newErrors[key] = error
+      }
+    })
+
+    const allTouched = Object.keys(formData).reduce((acc, key) => ({...acc, [key]: true}), {})
+    setTouched(allTouched)
+
+    if(Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      return
+    }
+
+    setIsSubmitting(true)
+    await new Promise((resolve) => setTimeout(resolve, 1500))
+
+    setIsSubmitting(false)
     setSubmitted(true)
+
+
     setTimeout(() => {
       setFormData({
         fullName: "",
@@ -92,8 +130,17 @@ export default function ConsultationPage() {
         preferredTime: "",
         message: "",
       })
+      setErrors({})
+      setTouched({})
       setSubmitted(false)
     }, 3000)
+  }
+
+  const getInputClassName = (fieldName, baseClassName) => {
+    if(errors[fieldName] && touched[fieldName]) {
+      return `${baseClassName} border-red-500 focus:ring-red-500`
+    }
+    return baseClassName
   }
 
   return (
