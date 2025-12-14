@@ -5,9 +5,10 @@ import Link from "next/link"
 import { Header } from "@/components/Header"
 import { Footer } from "@/components/Footer"
 import { Button } from "@/components/ui/button"
-import { Star, ChevronLeft, MessageSquare, Loader2 } from 'lucide-react'
+import { Star, ChevronLeft, MessageSquare, Loader2, Heart } from 'lucide-react'
 import ChatBot from "@/components/ChatBot"
 import { vehicleAPI } from "../../../lib/api/vehicles"
+import { localStorageAPI } from "@/lib/storage/localStorage.js"
 
 
 export default function VehicleDetailsPage({ params: paramsPromise }) {
@@ -24,6 +25,8 @@ export default function VehicleDetailsPage({ params: paramsPromise }) {
   const [downPayment, setDownPayment] = useState(0)
   const [loanTerm, setLoanTerm] = useState(5)
 
+  const [isFavourite, setIsFavourite] = useState(false)
+
   useEffect(() => {
     const fetchVehicle = async () => {
       setLoading(true)
@@ -32,6 +35,9 @@ export default function VehicleDetailsPage({ params: paramsPromise }) {
       if(result.success) {
         setVehicle(result.data)
         setLoanAmount(result.data.price)
+
+        localStorageAPI.addRecentlyViewed(params.id)
+        setIsFavourite(localStorageAPI.isFavourite(params.id))
       } else {
         setError(result.error)
       }
@@ -50,6 +56,16 @@ export default function VehicleDetailsPage({ params: paramsPromise }) {
       (principal * (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments))) /
       (Math.pow(1 + monthlyRate, numberOfPayments) - 1)
     setMonthlyPayment(monthlyPaymentCalc)
+  }
+
+  const toggleFavourite = () => {
+    if (isFavourite) {
+      localStorageAPI.removeFavourite(params.id)
+      setIsFavourite(false)
+    } else {
+      localStorageAPI.addFavourite(params.id)
+      setIsFavourite(true)
+    }
   }
 
   if (loading) {
@@ -120,7 +136,19 @@ export default function VehicleDetailsPage({ params: paramsPromise }) {
           {/* Right Column - Info */}
           <div className="lg:col-span-2">
             <div className="mb-6">
-              <h1 className="text-4xl font-bold mb-3">{vehicle?.name || 'Vehicle'}</h1>
+              <div className="flex items-start justify-between mb-3">
+                <h1 className="text-4xl font-bold">{vehicle?.name || 'Vehicle'}</h1>
+
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={toggleFavourite}
+                  className="flex items-center gap-2 bg-transparent"
+                >
+                  <Heart className={`w-5 h-5 ${isFavourite ? "fill-red-500 text-red-500" : ""}`} />
+                  {isFavourite ? "Saved" : "Save"}
+                </Button>
+              </div>
               <div className="flex items-center gap-4 mb-4">
                 <span className="text-3xl font-bold text-primary">LKR {vehicle?.price?.toLocaleString?.() || 'N/A'}</span>
                 <span
