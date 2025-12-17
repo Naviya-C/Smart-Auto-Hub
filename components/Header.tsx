@@ -53,28 +53,48 @@ export function Header() {
                         priority
                     />
 
+                    {/* WORDMARK */}
                     <div className="flex flex-col sm:flex-row leading-tight sm:items-center">
-            <span className="text-3xl font-extrabold tracking-wide bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent">
-              Smart
-            </span>
+
+                        {/* Smart */}
+                        <span
+                            className="text-3xl font-extrabold tracking-wide
+                                bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent
+                                transition-all duration-400 hover:brightness-200"
+                        >
+                            Smart
+                        </span>
+
+                        {/* AutoHub */}
                         <span className="text-3xl font-extrabold sm:ml-2">
-              <span className="text-black">Auto</span>
-              <span className="text-red-700">Hub</span>
-            </span>
+                            <span className="text-black hover:text-red-700">Auto</span>
+                            <span className="text-red-700 hover:text-orange-500">Hub</span>
+                        </span>
                     </div>
                 </Link>
 
                 {/* DESKTOP NAV */}
+                {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center gap-8">
-                    {headerMenuData.map((item) => (
+                    {headerMenuData?.map((item) => (
                         <Link
-                            key={item.title}
-                            href={item.href}
-                            className={`relative font-medium transition ${
-                                pathname === item.href ? "text-primary" : "text-foreground"
+                            key={item?.title}
+                            href={item?.href}
+                            className={`relative text-foreground font-medium hover:text-primary transition group ${
+                                pathname === item?.href && "text-primary"
                             }`}
                         >
-                            {item.title}
+                            {item?.title}
+                            <span
+                                className={`absolute -bottom-0.5 left-1/2 w-0 h-0.5 bg-orange-500 group-hover:w-1/2 hover-effect group-hover:left-0 duration-150 ${
+                                    pathname === item?.href && "w-1/2"
+                                }`}
+                            />
+                            <span
+                                className={`absolute -bottom-0.5 right-1/2 w-0 h-0.5 bg-orange-500 group-hover:w-1/2 hover-effect group-hover:right-0 duration-150 ${
+                                    pathname === item?.href && "w-1/2"
+                                }`}
+                            />
                         </Link>
                     ))}
                 </div>
