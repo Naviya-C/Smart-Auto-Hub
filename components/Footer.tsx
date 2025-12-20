@@ -37,15 +37,25 @@ export function Footer() {
             <ul className="space-y-2 text-sm">
               <li className="flex items-center gap-2">
                 <Phone size={16} />
-                <span>077 232 9595</span>
+                  <a href="tel:+94772329595">077 232 9595</a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} />
-                <span>sameeraautotraders@gmail.com</span>
+                  <a href="mailto:sameeraautotraders@gmail.com">
+                      sameeraautotraders@gmail.com
+                  </a>
               </li>
               <li className="flex items-start gap-2">
                 <MapPin size={16} className="mt-0.5" />
-                <span>109 Sunethradevi Rd, Nugegoda</span>
+
+                  <a
+                      href="https://www.google.com/maps?q=109+Sunethradevi+Rd,+Nugegoda"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline"
+                  >
+                      109 Sunethradevi Rd, Nugegoda
+                  </a>
               </li>
             </ul>
           </div>
