@@ -660,53 +660,56 @@ export default function Home() {
       </section>
 
       {/* Newsletter */}
-      <section className="max-w-4xl mx-auto px-4 mb-16">
-        <div className="bg-gradient-to-r from-primary to-accent rounded-lg p-8 text-center text-primary-foreground">
-          <h2 className="text-3xl font-bold mb-4">
-            Get Updates on New Stock & Offers
-          </h2>
-          <p className="mb-6 opacity-90">
-            Subscribe to our newsletter for exclusive deals and new vehicle
-            arrivals.
-          </p>
+      <section className="max-w-5xl mx-auto px-4 mb-24">
+        <div className="bg-gradient-to-br from-primary via-primary to-accent rounded-2xl p-10 md:p-12 text-center text-primary-foreground shadow-2xl relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent"></div>
+          <div className="relative z-10">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-balance">
+              Get Updates on New Stock & Offers
+            </h2>
+            <p className="text-lg mb-8 opacity-95 text-balance max-w-2xl mx-auto">
+              Subscribe to our newsletter for exclusive deals and new vehicle
+              arrivals.
+            </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  //handleSubscribe(email, session?.user?.id, setEmail);
-                  onSubscribeWrapper();
-                }
-              }}
-              disabled={isLoading}
-              className="flex-1 px-4 py-3 rounded bg-white/20 border border-white/30 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white"
-            />
-            <Button
-              type="button"
-              variant="secondary"
-              // onClick={() =>
-              //   handleSubscribe(email, session?.user?.id, setEmail)
-              // }
-              onClick={() => onSubscribeWrapper()}
-              disabled={isLoading}
-              className="h-12"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 animate-spin" size={20} />
-                  Subscribing
-                </>
-              ) : (
-                <>
-                  <Newspaper className="mr-2" size={20} />
-                  Subscribe
-                </>
-              )}
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    //handleSubscribe(email, session?.user?.id, setEmail);
+                    onSubscribeWrapper();
+                  }
+                }}
+                disabled={isLoading}
+                className="flex-1 px-6 py-4 rounded-lg bg-white/20 border-2 border-white/30 text-white placeholder:text-white/70 focus:outline-none focus:ring-4 focus:ring-white/30 backdrop-blur-sm"
+              />
+              <Button
+                type="button"
+                variant="secondary"
+                // onClick={() =>
+                //   handleSubscribe(email, session?.user?.id, setEmail)
+                // }
+                onClick={() => onSubscribeWrapper()}
+                disabled={isLoading}
+                className="h-15 font-semibold shadow-lg hover:scale-105 transition-transform duration-300"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 animate-spin" size={20} />
+                    Subscribing
+                  </>
+                ) : (
+                  <>
+                    <Newspaper className="mr-2" size={20} />
+                    Subscribe
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
         </div>
       </section>
