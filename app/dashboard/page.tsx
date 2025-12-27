@@ -28,6 +28,8 @@ import {
 } from "lucide-react";
 import ChatBot from "@/components/ChatBot";
 import { signOut, useSession } from "next-auth/react";
+import { localStorageAPI } from "@/lib/storage/localStorage";
+import { count } from "console";
 import {cancelBookings} from "../APITriggers/cancelBookings.js";
 
 const upcomingAppointments = [];
@@ -77,6 +79,29 @@ export default function DashboardPage() {
     loadAppointments();
   }, [status]);
 
+  const [notifications, setNotifications] = useState({
+    appointments: 0,
+    reviews: 0,
+  });
+
+  useEffect(() => {
+    const notifs = localStorageAPI.getNotifications();
+    setNotifications(notifs.dashboard);
+  }, []);
+
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+
+    if (tabId === "appointments") {
+      localStorageAPI.clearNotification("dashboard", "appointments");
+    } else if (tabId === "reviews") {
+      localStorageAPI.clearNotification("dashboard", "reviews");
+    }
+
+    const notifs = localStorageAPI.getNotifications();
+    setNotifications(notifs.dashboard);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -110,15 +135,27 @@ export default function DashboardPage() {
                     label: "My Appointments",
                     id: "appointments",
                     icon: Calendar,
+                    count: notifications.appointments,
                   },
-                  { label: "My Reviews", id: "reviews", icon: Star },
-                  { label: "My Profile", id: "profile", icon: User },
-                  { label: "Settings", id: "settings", icon: Settings },
+                  {
+                    label: "My Reviews",
+                    id: "reviews",
+                    icon: Star,
+                    count: notifications.reviews,
+                  },
+                  { label: "My Profile", id: "profile", icon: User, count: 0 },
+                  {
+                    label: "Settings",
+                    id: "settings",
+                    icon: Settings,
+                    count: 0,
+                  },
                 ].map((item) => (
                   <button
                     key={item.id}
-                    onClick={() => setActiveTab(item.id)}
-                    className={`w-full flex items-center gap-3 px-6 py-4 font-medium transition ${
+                    //onClick={() => setActiveTab(item.id)}
+                    onClick={() => handleTabChange(item.id)}
+                    className={`w-full flex items-center gap-3 px-6 py-4 font-medium transition relative ${
                       activeTab === item.id
                         ? "bg-primary text-primary-foreground"
                         : "text-foreground hover:bg-secondary/50"
@@ -126,17 +163,24 @@ export default function DashboardPage() {
                   >
                     <item.icon size={18} />
                     {item.label}
+                    {item.count > 0 && (
+                      <span className="ml-auto h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center animate-pulse">
+                        {item.count > 9 ? "9+" : item.count}
+                      </span>
+                    )}
                   </button>
                 ))}
               </div>
             </nav>
 
-            <button
+            <Button
+              className="w-full mt-4 bg-transparent"
+              variant="outline"
               onClick={() => signOut({ callbackUrl: "/login" })}
-              className="w-full text-left text-destructive"
             >
+              <LogOut size={18} className="mr-2" />
               Logout
-            </button>
+            </Button>
           </div>
 
           {/* Main Content Area */}
@@ -185,8 +229,8 @@ export default function DashboardPage() {
                                 <span
                                   className={`px-3 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1 ${
                                     apt.status === "CONFIRMED"
-                                      ? "bg-green-500/20 text-green-700 dark:text-green-400"
-                                      : "bg-yellow-500/20 text-yellow-700 dark:text-yellow-400"
+                                      ? "bg-emerald-500/20 text-emerald-700 dark:bg-emerald-500/30 dark:text-emerald-300"
+                                      : "bg-amber-500/20 text-amber-700 dark:bg-amber-500/30 dark:text-amber-300"
                                   }`}
                                 >
                                   {apt.status}
@@ -261,7 +305,7 @@ export default function DashboardPage() {
                             <Button
                               variant="outline"
                               size="sm"
-                              className="text-red-600 hover:text-red-700"
+                              className="text-red-600 hover:text-red-700 bg-transparent"
                               onClick={()=>cancelBookings(apt.id)}
                             >
                               <XCircle size={14} className="mr-2" />
@@ -554,7 +598,7 @@ export default function DashboardPage() {
                     </p>
                     <Button
                       variant="outline"
-                      className="text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
+                      className="text-red-600 hover:bg-red-50 dark:hover:bg-red-950 bg-transparent"
                     >
                       Delete Account
                     </Button>

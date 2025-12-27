@@ -14,6 +14,9 @@ import {
   Quote,
   Play,
   Clock,
+  Car,
+  Loader2,
+  Newspaper,
 } from "lucide-react";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { useSession } from "next-auth/react";
@@ -131,6 +134,8 @@ export default function Home() {
   const [searchHistory, setSearchHistory] = useState([]);
   const [showHistory, setShowHistory] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSearch = () => {
     if (searchQuery.trim()) {
       const updated = localStorageAPI.addSearchHistory(searchQuery.trim());
@@ -162,8 +167,20 @@ export default function Home() {
     setShowHistory(false);
   };
 
+  const onSubscribeWrapper = async () => {
+    if (!email) return handleSubscribe(email, session?.user?.id, setEmail); // Let the helper handle empty email validation
+
+    setIsLoading(true);
+
+    try {
+      await handleSubscribe(email, session?.user?.id, setEmail);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background ">
       <Header />
 
       {/* SHOW LOGGED USER */}
@@ -183,20 +200,32 @@ export default function Home() {
           backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/60 to-black/30"></div>
+        {/* <div
+          className="absolute inset-0 animate-image-reveal"
+          style={{
+            backgroundImage:
+              "url(/placeholder.svg?height=576&width=1920&query=professional luxury car dealership showroom exterior with modern glass building)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            animation:
+              "imageReveal 1.2s ease-out, kenBurnsZoom 4s ease-out forwards",
+          }}
+        ></div> */}
+
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30"></div>
         <div className="relative max-w-7xl mx-auto px-4 w-full">
           <div className="max-w-2xl space-y-6">
-            <h1 className="text-5xl lg:text-6xl font-bold mb-4 text-balance leading-tight">
+            <h1 className="text-5xl lg:text-6xl font-bold mb-4 text-balance leading-tight animate-slide-up-1">
               Find Your Next Vehicle at Sameera Auto Traders
             </h1>
-            <p className="text-xl lg:text-2xl mb-8 opacity-95 text-balance leading-relaxed">
+            <p className="text-xl lg:text-2xl mb-8 opacity-95 text-balance leading-relaxed animate-slide-up-2">
               Browse, book, and consult online—our entire inventory at your
               fingertips.
             </p>
             <Button
               asChild
               size="lg"
-              className="bg-white text-primary hover:bg-white/90 font-semibold shadow-lg"
+              className="bg-white text-primary hover:bg-white/90 font-semibold shadow-lg animate-slide-up-3"
             >
               <Link href="/vehicles">Explore Vehicles</Link>
             </Button>
@@ -300,10 +329,15 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredVehicles.map((vehicle) => (
+          {featuredVehicles.map((vehicle, index) => (
             <div
               key={vehicle.id}
-              className="bg-card rounded-xl overflow-hidden border border-border hover:shadow-2xl hover:border-primary/50 transition-all duration-300 group"
+              className="bg-card rounded-xl overflow-hidden border border-border hover:shadow-2xl hover:border-primary/50 transition-all duration-300 group
+              hover-glow scale-in"
+              style={{
+                opacity: 0,
+                animationDelay: `${index * 0.15}s`,
+              }}
             >
               <div className="relative h-52 bg-muted overflow-hidden">
                 <img
@@ -358,7 +392,7 @@ export default function Home() {
       <section className="bg-linear-to-br from-secondary/10 via-primary/5 to-accent/10 py-20 mb-24">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-4xl font-bold mb-4">
+            <h2 className="text-4xl md:text-4xl font-bold mb-4 text-balance">
               How It Works
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -367,12 +401,16 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-card p-8 rounded-xl border border-border text-center hover:shadow-xl transition-shadow duration-300 relative group">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center justify-center w-16 h-16 bg-blue-500 rounded-full shadow-lg text-white font-bold text-xl">
+            {/* Step 1 */}
+            <div className="bg-card p-8 rounded-xl border border-border text-center hover:shadow-xl transition-shadow duration-300 relative group hover-glow fade-in-up delay-100">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center justify-center w-16 h-16 bg-blue-600 dark:bg-blue-500 rounded-full shadow-lg text-white font-bold text-xl">
                 1
               </div>
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-50 rounded-2xl mb-6 mt-4 group-hover:scale-110 transition-transform">
-                <Search className="text-blue-500" size={40} />
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-100 dark:bg-blue-500/20 rounded-2xl mb-6 mt-4 group-hover:scale-110 transition-transform">
+                <Search
+                  className="text-blue-600 dark:text-blue-400"
+                  size={40}
+                />
               </div>
               <h3 className="font-bold text-2xl mb-4">Search</h3>
               <p className="text-muted-foreground leading-relaxed">
@@ -381,12 +419,16 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="bg-card p-8 rounded-xl border border-border text-center hover:shadow-xl transition-shadow duration-300 relative group">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center justify-center w-16 h-16 bg-green-500 rounded-full shadow-lg text-white font-bold text-xl">
+            {/* Step 2 */}
+            <div className="bg-card p-8 rounded-xl border border-border text-center hover:shadow-xl transition-shadow duration-300 relative group hover-glow fade-in-up delay-200">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center justify-center w-16 h-16 bg-emerald-600 dark:bg-emerald-500 rounded-full shadow-lg text-white font-bold text-xl">
                 2
               </div>
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-green-50 rounded-2xl mb-6 mt-4 group-hover:scale-110 transition-transform">
-                <MessageSquare className="text-green-500" size={40} />
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 dark:bg-emerald-500/20 rounded-2xl mb-6 mt-4 group-hover:scale-110 transition-transform">
+                <MessageSquare
+                  className="text-green-600 dark:text-emerald-400"
+                  size={40}
+                />
               </div>
               <h3 className="font-bold text-2xl mb-4">Consult</h3>
               <p className="text-muted-foreground leading-relaxed">
@@ -394,12 +436,16 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="bg-card p-8 rounded-xl border border-border text-center hover:shadow-xl transition-shadow duration-300 relative group">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center justify-center w-16 h-16 bg-purple-500 rounded-full shadow-lg text-white font-bold text-xl">
+            {/* Step 3 */}
+            <div className="bg-card p-8 rounded-xl border border-border text-center hover:shadow-xl transition-shadow duration-300 relative group hover-glow fade-in-up delay-300">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center justify-center w-16 h-16 bg-purple-600 dark:bg-purple-500 rounded-full shadow-lg text-white font-bold text-xl">
                 3
               </div>
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-purple-50 rounded-2xl mb-6 mt-4 group-hover:scale-110 transition-transform">
-                <Calendar className="text-purple-500" size={40} />
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-purple-100 dark:bg-purple-500/20 rounded-2xl mb-6 mt-4 group-hover:scale-110 transition-transform">
+                <Calendar
+                  className="text-purple-500 dark:text-purple-400"
+                  size={40}
+                />
               </div>
               <h3 className="font-bold text-2xl mb-4">Book</h3>
               <p className="text-muted-foreground leading-relaxed">
@@ -443,10 +489,14 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {videoReviews.map((video) => (
+          {videoReviews.map((video, index) => (
             <div
               key={video.id}
-              className="bg-card rounded-xl overflow-hidden border border-border hover:shadow-2xl hover:border-red-500/50 transition-all duration-300 group cursor-pointer"
+              className="bg-card rounded-xl overflow-hidden border border-border hover:shadow-2xl hover:border-red-500/50 transition-all duration-300 group cursor-pointer hover-glow fade-in-up"
+              style={{
+                opacity: 0,
+                animationDelay: `${index * 0.1}s`,
+              }}
               onClick={() =>
                 window.open(
                   `https://www.youtube.com/watch?v=${video.videoId}`,
@@ -506,7 +556,7 @@ export default function Home() {
               delay: 4000,
             }),
           ]}
-          className="w-full"
+          className="w-full fade-in-up delay-200"
         >
           <CarouselContent>
             {[
@@ -610,31 +660,56 @@ export default function Home() {
       </section>
 
       {/* Newsletter */}
-      <section className="max-w-4xl mx-auto px-4 mb-16">
-        <div className="bg-gradient-to-r from-primary to-accent rounded-lg p-8 text-center text-primary-foreground">
-          <h2 className="text-3xl font-bold mb-4">
-            Get Updates on New Stock & Offers
-          </h2>
-          <p className="mb-6 opacity-90">
-            Subscribe to our newsletter for exclusive deals and new vehicle
-            arrivals.
-          </p>
+      <section className="max-w-5xl mx-auto px-4 mb-24">
+        <div className="bg-gradient-to-br from-primary via-primary to-accent rounded-2xl p-10 md:p-12 text-center text-primary-foreground shadow-2xl relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent"></div>
+          <div className="relative z-10">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-balance">
+              Get Updates on New Stock & Offers
+            </h2>
+            <p className="text-lg mb-8 opacity-95 text-balance max-w-2xl mx-auto">
+              Subscribe to our newsletter for exclusive deals and new vehicle
+              arrivals.
+            </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 px-4 py-3 rounded bg-white/20 border border-white/30 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white"
-            />
-            <Button
-              variant="secondary"
-              onClick={() => handleSubscribe(email, session?.user?.id)}
-              className="h-12"
-            >
-              Subscribe
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    //handleSubscribe(email, session?.user?.id, setEmail);
+                    onSubscribeWrapper();
+                  }
+                }}
+                disabled={isLoading}
+                className="flex-1 px-6 py-4 rounded-lg bg-white/20 border-2 border-white/30 text-white placeholder:text-white/70 focus:outline-none focus:ring-4 focus:ring-white/30 backdrop-blur-sm"
+              />
+              <Button
+                type="button"
+                variant="secondary"
+                // onClick={() =>
+                //   handleSubscribe(email, session?.user?.id, setEmail)
+                // }
+                onClick={() => onSubscribeWrapper()}
+                disabled={isLoading}
+                className="h-15 font-semibold shadow-lg hover:scale-105 transition-transform duration-300"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 animate-spin" size={20} />
+                    Subscribing
+                  </>
+                ) : (
+                  <>
+                    <Newspaper className="mr-2" size={20} />
+                    Subscribe
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
         </div>
       </section>

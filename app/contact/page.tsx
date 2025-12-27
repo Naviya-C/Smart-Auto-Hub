@@ -14,10 +14,11 @@ import {
   Building,
   AlertCircle,
   Loader2,
+  FileQuestion,
 } from "lucide-react";
 import ChatBot from "@/components/ChatBot";
+import { toast } from "sonner";
 
-// Contact Page
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -93,8 +94,10 @@ export default function ContactPage() {
 
     const newErrors = {};
     Object.keys(formData).forEach((key) => {
-      const error = validateField(key, formData[key]);
-      if (error) newErrors[key] = error;
+      if (key !== "message") {
+        const error = validateField(key, formData[key]);
+        if (error) newErrors[key] = error;
+      }
     });
 
     const allTouched = Object.keys(formData).reduce(
@@ -110,11 +113,15 @@ export default function ContactPage() {
 
     setIsSubmitting(true);
 
-    // Simulate network delay
+    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     setIsSubmitting(false);
     setSubmitted(true);
+    toast.success("Message sent successfully! We'll get back to you soon.", {
+      duration: 4000,
+      icon: "✉️",
+    });
 
     setTimeout(() => {
       setFormData({
@@ -550,7 +557,7 @@ export default function ContactPage() {
             </div>
 
             {/* FAQ Section */}
-            <div className="mt-8 bg-linear-to-br from-secondary/10 to-secondary/5 rounded-lg p-6 border border-border">
+            <div className="mt-8 bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-lg p-6 border border-border">
               <h3 className="font-bold text-xl mb-4">
                 Frequently Asked Questions
               </h3>
@@ -582,6 +589,18 @@ export default function ContactPage() {
                     back to you as soon as possible.
                   </p>
                 </div>
+              </div>
+              <div className="mt-6 pt-4 border-t border-border">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-full bg-transparent"
+                >
+                  <a href="/faq" className="flex items-center justify-center">
+                    <FileQuestion className="mr-2" size={18} />
+                    View all FAQs
+                  </a>
+                </Button>
               </div>
             </div>
           </div>

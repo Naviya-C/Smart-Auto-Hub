@@ -34,34 +34,40 @@ import {
   updateBookings,
 } from "../APITriggers/approveBookingsByAdmins.js";
 import { sendAdminMessagesForBookings } from "../APITriggers/sendAdminMessagesForBookings.js";
+import { localStorageAPI } from "@/lib/storage/localStorage";
+import { count } from "console";
 
 const stats = [
   {
     label: "Total Vehicles",
     value: "150",
     change: "+12 this month",
-    color: "bg-red-500/10 text-red-600 dark:text-red-400",
+    color:
+      "bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-300",
     icon: Car,
   },
   {
     label: "Pending Requests",
     value: "23",
     change: "8 appointments, 15 inquiries",
-    color: "bg-orange-500/10 text-orange-600 dark:text-orange-400",
+    color:
+      "bg-amber-500/10 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400",
     icon: Clock,
   },
   {
     label: "Newsletter Subscribers",
     value: "1,247",
     change: "+89 this week",
-    color: "bg-green-500/10 text-green-600 dark:text-green-400",
+    color:
+      "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400",
     icon: Mail,
   },
   {
     label: "Active Branches",
     value: "3",
     change: "Nugegoda, Matara, Colombo",
-    color: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
+    color:
+      "bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400",
     icon: MapPin,
   },
 ];
@@ -156,6 +162,35 @@ export default function AdminPage() {
     return () => clearInterval(interval);
   }, []);
 
+  const [notifications, setNotifications] = useState({
+    requests: 0,
+    vehicles: 0,
+    videos: 0,
+    newsletter: 0,
+  });
+
+  useEffect(() => {
+    const notifs = localStorageAPI.getNotifications();
+    setNotifications(notifs.admin);
+  }, []);
+
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+
+    if (tabId === "requests") {
+      localStorageAPI.clearNotification("admin", "requests");
+    } else if (tabId === "vehicles") {
+      localStorageAPI.clearNotification("admin", "vehicles");
+    } else if (tabId === "videos") {
+      localStorageAPI.clearNotification("admin", "videos");
+    } else if (tabId === "newsletter") {
+      localStorageAPI.clearNotification("admin", "newsletter");
+    }
+
+    const notifs = localStorageAPI.getNotifications();
+    setNotifications(notifs.admin);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -203,16 +238,42 @@ export default function AdminPage() {
         <div className="bg-card rounded-t-lg border-x border-t border-border">
           <div className="flex items-center gap-2 px-6 py-3 border-b border-border overflow-x-auto">
             {[
-              { id: "requests", label: "Consultation Bookings", icon: Users },
-              { id: "vehicles", label: "Vehicle Management", icon: Car },
-              { id: "videos", label: "Video Reviews", icon: Video },
-              { id: "newsletter", label: "Newsletter", icon: Mail },
-              { id: "branches", label: "Branch Inventory", icon: MapPin },
+              {
+                id: "requests",
+                label: "Consultation Bookings",
+                icon: Users,
+                count: notifications.requests,
+              },
+              {
+                id: "vehicles",
+                label: "Vehicle Management",
+                icon: Car,
+                count: notifications.vehicles,
+              },
+              {
+                id: "videos",
+                label: "Video Reviews",
+                icon: Video,
+                count: notifications.videos,
+              },
+              {
+                id: "newsletter",
+                label: "Newsletter",
+                icon: Mail,
+                count: notifications.newsletter,
+              },
+              {
+                id: "branches",
+                label: "Branch Inventory",
+                icon: MapPin,
+                count: 0,
+              },
             ].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded font-medium transition whitespace-nowrap ${
+                // onClick={() => setActiveTab(tab.id)}
+                onClick={() => handleTabChange(tab.id)}
+                className={`flex items-center gap-2 px-4 py-2 rounded font-medium transition whitespace-nowrap relative ${
                   activeTab === tab.id
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:bg-secondary hover:text-foreground"
@@ -220,6 +281,11 @@ export default function AdminPage() {
               >
                 <tab.icon size={18} />
                 {tab.label}
+                {tab.count > 0 && (
+                  <span className="h-5 w-5 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center animate-pulse">
+                    {tab.count > 9 ? "9+" : tab.count}
+                  </span>
+                )}
               </button>
             ))}
           </div>
@@ -294,11 +360,11 @@ export default function AdminPage() {
                         <td className="px-4 py-2">
                           <span
                             className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              request.status === "APPROVED"
-                                ? "bg-green-500/20 text-green-700"
+                              request.status === "ACCEPTED"
+                                ? "bg-emerald-500/20 text-emerald-700 dark:bg-emerald-500/30 dark:text-emerald-300"
                                 : request.status === "REJECTED"
-                                ? "bg-red-500/20 text-red-700"
-                                : "bg-yellow-500/20 text-yellow-700"
+                                ? "bg-rose-500/20 text-rose-700 dark:bg-rose-500/30 dark:text-rose-300"
+                                : "bg-amber-500/20 text-amber-700 dark:bg-amber-500/30 dark:text-amber-300"
                             }`}
                           >
                             {request.status}
