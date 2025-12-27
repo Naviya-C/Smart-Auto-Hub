@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import ChatBot from "@/components/ChatBot";
 import { signOut, useSession } from "next-auth/react";
+import {cancelBookings} from "../APITriggers/cancelBookings.js";
 
 const upcomingAppointments = [];
 
@@ -261,6 +262,7 @@ export default function DashboardPage() {
                               variant="outline"
                               size="sm"
                               className="text-red-600 hover:text-red-700"
+                              onClick={()=>cancelBookings(apt.id)}
                             >
                               <XCircle size={14} className="mr-2" />
                               Cancel
