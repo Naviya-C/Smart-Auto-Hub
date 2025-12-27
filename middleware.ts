@@ -6,11 +6,12 @@ export function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
 
     // Check pathname starts with /admin
-    if (url.pathname.startsWith('/admin')) {
-        // Rewrite to /login
-        url.pathname = url.pathname.replace('/admin', '/login');
-        return NextResponse.rewrite(url);
+    if (request.nextUrl.pathname.startsWith("/admin")) {
+    const isAdmin = request.cookies.get("isAdmin");
+    if (!isAdmin) {
+      return NextResponse.redirect(new URL("/login", request.url));
     }
+  }
     // If no rewrite is needed, continue with the request
     return NextResponse.next();
 }
