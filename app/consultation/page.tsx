@@ -170,7 +170,7 @@ export default function ConsultationPage() {
 
       {/* Hero Section */}
       <section
-        className="relative h-96 bg-linear-to-r from-primary via-primary/90 to-secondary text-primary-foreground flex items-center mb-24"
+        className="relative h-96 bg-linear-to-r from-primary via-primary/90 to-secondary text-primary-foreground flex items-center mb-24 animate-slide-in-down"
         style={{
           backgroundImage:
             "url(/placeholder.svg?height=384&width=1600&query=professional car consultation advisor customer meeting)",
@@ -180,10 +180,10 @@ export default function ConsultationPage() {
       >
         <div className="absolute inset-0 bg-linear-to-r from-black/60 via-black/40 to-black/60"></div>
         <div className="relative max-w-7xl mx-auto px-4 w-full">
-          <h1 className="text-6xl font-bold mb-4 text-balance">
+          <h1 className="text-6xl font-bold mb-4 text-balance animate-text-reveal">
             Book an Appointment
           </h1>
-          <p className="text-xl opacity-90 text-balance max-w-2xl">
+          <p className="text-xl opacity-90 text-balance max-w-2xl animate-text-reveal stagger-1">
             Connect with our technical experts for personalized vehicle guidance
             and advice.
           </p>
@@ -194,7 +194,7 @@ export default function ConsultationPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Consultation Benefits */}
           <div className="lg:col-span-1 space-y-6">
-            <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition">
+            <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition animate-bounce-in-up delay-100">
               <div className="flex items-start gap-4">
                 <div className="shrink-0">
                   <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-500/10">
@@ -211,7 +211,7 @@ export default function ConsultationPage() {
               </div>
             </div>
 
-            <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition">
+            <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition animate-bounceInUp delay-300">
               <div className="flex items-start gap-4">
                 <div className="shrink-0">
                   <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-green-500/10">
@@ -229,7 +229,7 @@ export default function ConsultationPage() {
               </div>
             </div>
 
-            <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition">
+            <div className="bg-card rounded-lg p-6 border border-border shadow-sm hover:shadow-md transition animate-bounceInUp delay-500">
               <div className="flex items-start gap-4">
                 <div className="shrink-0">
                   <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-purple-500/10">
@@ -249,8 +249,8 @@ export default function ConsultationPage() {
 
           {/* Consultation Form */}
           <div className="lg:col-span-2">
-            <div className="bg-card rounded-lg p-8 border border-border shadow-sm">
-              <h2 className="text-3xl font-bold mb-6">
+            <div className="bg-card rounded-lg p-8 border border-border shadow-sm animate-popIn delay-300">
+              <h2 className="text-3xl font-bold mb-6 animate-text-reveal">
                 Schedule Your Consultation
               </h2>
 

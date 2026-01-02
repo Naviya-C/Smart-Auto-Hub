@@ -314,8 +314,10 @@ export default function AdminPage() {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
           <div>
-            <h1 className="text-4xl font-bold mb-2">Admin Dashboard</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-4xl font-bold mb-2 animate-text-reveal">
+              Admin Dashboard
+            </h1>
+            <p className="text-muted-foreground animate-text-reveal stagger-1">
               Monitor and manage Smart AutoHub operations
             </p>
           </div>
@@ -335,7 +337,8 @@ export default function AdminPage() {
           {stats.map((stat, idx) => (
             <div
               key={idx}
-              className="bg-card rounded-lg border border-border p-6 hover:shadow-lg transition"
+              className="bg-card rounded-lg border border-border p-6 hover:shadow-lg transition animate-bounceInScale"
+              style={{ animationDelay: `${idx * 100}ms` }}
             >
               <div className="flex items-start justify-between mb-4">
                 <div className={`p-3 rounded-lg ${stat.color}`}>
@@ -350,7 +353,7 @@ export default function AdminPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="bg-card rounded-t-lg border-x border-t border-border">
+        <div className="bg-card rounded-t-lg border-x border-t border-border animate-popIn delay-300">
           <div className="flex items-center gap-2 px-6 py-3 border-b border-border overflow-x-auto">
             {[
               {
@@ -407,7 +410,7 @@ export default function AdminPage() {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-card rounded-b-lg border-x border-b border-border p-6">
+        <div className="bg-card rounded-b-lg border-x border-b border-border p-6 animate-slideInUp delay-400">
           {/* Customer Requests Tab */}
           {activeTab === "requests" && (
             <div>
