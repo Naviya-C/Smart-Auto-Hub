@@ -17,6 +17,7 @@ import {
   Car,
   Loader2,
   Newspaper,
+  MessageCircle,
 } from "lucide-react";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { useSession } from "next-auth/react";
@@ -390,21 +391,25 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="bg-linear-to-br from-secondary/10 via-primary/5 to-accent/10 py-20 mb-24">
+      {/* Trust & Credibility Section + How it works     */}
+      <section className="py-24 border-y border-border">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-4xl font-bold mb-4 text-balance">
-              How It Works
+          {/* Section Header */}
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-balance">
+              Your Journey to the Perfect Vehicle
             </h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Find your perfect vehicle in three simple steps
+            <p className="text-muted-foreground text-xl max-w-3xl mx-auto">
+              From discovery to ownership, we ensure every step builds trust and
+              confidence
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Process Steps(How It works) - 3 Columns */}
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
             {/* Step 1 */}
-            <div className="bg-card p-8 rounded-xl border border-border text-center hover:shadow-xl transition-shadow duration-300 relative group hover-glow fade-in-up delay-100">
+            <div className="bg-card p-8 rounded-xl border border-border text-center hover:shadow-xl transition-all duration-300 relative group fade-in-up delay-100">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center justify-center w-16 h-16 bg-blue-600 dark:bg-blue-500 rounded-full shadow-lg text-white font-bold text-xl">
                 1
               </div>
@@ -422,13 +427,13 @@ export default function Home() {
             </div>
 
             {/* Step 2 */}
-            <div className="bg-card p-8 rounded-xl border border-border text-center hover:shadow-xl transition-shadow duration-300 relative group hover-glow fade-in-up delay-200">
+            <div className="bg-card p-8 rounded-xl border border-border text-center hover:shadow-xl transition-all duration-300 relative group fade-in-up delay-200">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center justify-center w-16 h-16 bg-emerald-600 dark:bg-emerald-500 rounded-full shadow-lg text-white font-bold text-xl">
                 2
               </div>
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 dark:bg-emerald-500/20 rounded-2xl mb-6 mt-4 group-hover:scale-110 transition-transform">
-                <MessageSquare
-                  className="text-green-600 dark:text-emerald-400"
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-emerald-100 dark:bg-emerald-500/20 rounded-2xl mb-6 mt-4 group-hover:scale-110 transition-transform">
+                <MessageCircle
+                  className="text-emerald-600 dark:text-emerald-400"
                   size={40}
                 />
               </div>
@@ -439,15 +444,12 @@ export default function Home() {
             </div>
 
             {/* Step 3 */}
-            <div className="bg-card p-8 rounded-xl border border-border text-center hover:shadow-xl transition-shadow duration-300 relative group hover-glow fade-in-up delay-300">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center justify-center w-16 h-16 bg-purple-600 dark:bg-purple-500 rounded-full shadow-lg text-white font-bold text-xl">
+            <div className="bg-card p-8 rounded-xl border border-border text-center hover:shadow-xl transition-all duration-300 relative group fade-in-up delay-300">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 inline-flex items-center justify-center w-16 h-16 bg-primary rounded-full shadow-lg text-white font-bold text-xl">
                 3
               </div>
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-purple-100 dark:bg-purple-500/20 rounded-2xl mb-6 mt-4 group-hover:scale-110 transition-transform">
-                <Calendar
-                  className="text-purple-500 dark:text-purple-400"
-                  size={40}
-                />
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-primary/20 rounded-2xl mb-6 mt-4 group-hover:scale-110 transition-transform">
+                <Calendar className="text-primary" size={40} />
               </div>
               <h3 className="font-bold text-2xl mb-4">Book</h3>
               <p className="text-muted-foreground leading-relaxed">
@@ -456,11 +458,250 @@ export default function Home() {
               </p>
             </div>
           </div>
+
+          {/* Trust Metrics - This process leads to trust */}
+
+          <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl border border-primary/20 p-8 md:p-12 mb-16">
+            <h3 className="text-3xl md:text-4xl font-bold mb-12 text-center">
+              Trusted by Thousands
+            </h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+              {[
+                {
+                  icon: "🏆",
+                  number: "20+",
+                  label: "Years in Business",
+                  description: "Two decades of excellence",
+                },
+                {
+                  icon: "😊",
+                  number: "500+",
+                  label: "Happy Customers",
+                  description: "Customers trust us annually",
+                },
+                {
+                  icon: "🚗",
+                  number: "100+",
+                  label: "Vehicles Available",
+                  description: "Curated selection",
+                },
+                {
+                  icon: "👨‍🔧",
+                  number: "15+",
+                  label: "Expert Team",
+                  description: "Certified specialists",
+                },
+                {
+                  icon: "⭐",
+                  number: "4.9/5",
+                  label: "Customer Rating",
+                  description: "Based on verified reviews",
+                },
+              ].map((stat, index) => (
+                <div
+                  key={index}
+                  className="text-center hover:scale-105 transition-transform duration-300 fade-in-up"
+                  style={{
+                    animationDelay: `${index * 0.1}s`,
+                  }}
+                >
+                  <div className="text-4xl mb-3">{stat.icon}</div>
+                  <div className="text-3xl font-bold text-primary mb-2">
+                    {stat.number}
+                  </div>
+                  <h4 className="font-semibold text-foreground mb-1">
+                    {stat.label}
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    {stat.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Why Choose Us - The benefits */}
+          <div>
+            <h3 className="text-3xl md:text-4xl font-bold mb-12 text-center">
+              Why Customers Choose Sameera Auto Traders
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[
+                {
+                  title: "Quality Assured",
+                  description:
+                    "Every vehicle undergoes rigorous inspection and testing",
+                  icon: "✓",
+                },
+                {
+                  title: "Transparent Pricing",
+                  description:
+                    "No hidden charges. What you see is what you pay",
+                  icon: "💰",
+                },
+                {
+                  title: "Expert Consultants",
+                  description:
+                    "Get professional advice from our certified specialists",
+                  icon: "👥",
+                },
+                {
+                  title: "After-Sales Support",
+                  description:
+                    "Comprehensive warranty and maintenance packages available",
+                  icon: "🔧",
+                },
+                {
+                  title: "Easy Finance Options",
+                  description: "Flexible EMI plans and trade-in programs",
+                  icon: "💳",
+                },
+                {
+                  title: "Online Convenience",
+                  description:
+                    "Book appointments and manage everything from your phone",
+                  icon: "📱",
+                },
+              ].map((benefit, index) => (
+                <div
+                  key={index}
+                  className="bg-card rounded-xl border border-border p-6 hover:shadow-lg hover:border-primary/50 transition-all duration-300 fade-in-up"
+                  style={{
+                    animationDelay: `${index * 0.1}s`,
+                  }}
+                >
+                  <div className="text-4xl mb-4">{benefit.icon}</div>
+                  <h4 className="font-bold text-xl mb-2">{benefit.title}</h4>
+                  <p className="text-muted-foreground">{benefit.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
+      {/* Customer Reviews */}
+      <section className="max-w-7xl mx-auto px-4 mb-24 mt-12">
+        <h2 className="text-3xl font-bold mb-12 text-center">
+          What Our Customers Say
+        </h2>
+
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          plugins={[
+            Autoplay({
+              delay: 4000,
+            }),
+          ]}
+          className="w-full fade-in-up delay-200"
+        >
+          <CarouselContent>
+            {[
+              {
+                name: "Rajith Fernando",
+                location: "Colombo",
+                rating: 5,
+                review:
+                  "Excellent service! Found the perfect Toyota Prius for my family. The online booking system made everything so convenient.",
+                date: "2 weeks ago",
+                image:
+                  "/professional-sri-lankan-businessman-customer-portr.jpg",
+              },
+              {
+                name: "Nimal Perera",
+                location: "Nugegoda",
+                rating: 5,
+                review:
+                  "Very professional team. They helped me understand every detail about the Honda Civic I purchased. Highly recommend!",
+                date: "1 month ago",
+                image: "/satisfied-male-customer-with-car-keys-smiling.jpg",
+              },
+              {
+                name: "Samantha Silva",
+                location: "Kandy",
+                rating: 4,
+                review:
+                  "Great experience overall. The consultation service was particularly helpful in making my decision. Will definitely come back.",
+                date: "3 weeks ago",
+                image: "/professional-woman-customer-happy-with-new-car.jpg",
+              },
+              {
+                name: "Priya Wickramasinghe",
+                location: "Galle",
+                rating: 5,
+                review:
+                  "Best car dealership I've dealt with! Transparent pricing, no hidden charges, and excellent after-sales support.",
+                date: "1 week ago",
+                image: "/happy-female-customer-in-front-of-dealership.jpg",
+              },
+              {
+                name: "Kasun Jayawardena",
+                location: "Colombo",
+                rating: 5,
+                review:
+                  "The technical specialist provided valuable insights. Found exactly what I was looking for within my budget.",
+                date: "2 months ago",
+                image:
+                  "/satisfied-young-man-with-new-car-showing-thumbs-up.jpg",
+              },
+            ].map((testimonial, index) => (
+              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                <div className="p-4">
+                  <div className="bg-card rounded-lg p-6 border border-border h-full flex flex-col">
+                    <div className="flex items-start gap-4 mb-4">
+                      <img
+                        src={testimonial.image || "/placeholder.svg"}
+                        alt={testimonial.name}
+                        className="w-16 h-16 rounded-full object-cover border-2 border-primary/20"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-1 mb-2">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`h-4 w-4 ${
+                                i < testimonial.rating
+                                  ? "fill-yellow-500 text-yellow-500"
+                                  : "fill-gray-300 text-gray-300"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                        <p className="font-semibold text-foreground">
+                          {testimonial.name}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {testimonial.location}
+                        </p>
+                      </div>
+                      <Quote className="h-8 w-8 text-primary/20 flex-shrink-0" />
+                    </div>
+
+                    <p className="text-muted-foreground mb-4 flex-grow leading-relaxed">
+                      {testimonial.review}
+                    </p>
+
+                    <div className="pt-4 border-t border-border">
+                      <span className="text-xs text-muted-foreground">
+                        {testimonial.date}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="-left-4" />
+          <CarouselNext className="-right-4" />
+        </Carousel>
+      </section>
+
       {/* YT Reviews */}
-      <section className="max-w-7xl mx-auto px-4 mb-24">
+      <section className="max-w-7xl mx-auto px-4 mb-24 mt-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
           <div>
@@ -594,125 +835,6 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
-
-      {/* Customer Reviews */}
-      <section className="max-w-7xl mx-auto px-4 mb-16">
-        <h2 className="text-3xl font-bold mb-12 text-center">
-          What Our Customers Say
-        </h2>
-
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          plugins={[
-            Autoplay({
-              delay: 4000,
-            }),
-          ]}
-          className="w-full fade-in-up delay-200"
-        >
-          <CarouselContent>
-            {[
-              {
-                name: "Rajith Fernando",
-                location: "Colombo",
-                rating: 5,
-                review:
-                  "Excellent service! Found the perfect Toyota Prius for my family. The online booking system made everything so convenient.",
-                date: "2 weeks ago",
-                image:
-                  "/professional-sri-lankan-businessman-customer-portr.jpg",
-              },
-              {
-                name: "Nimal Perera",
-                location: "Nugegoda",
-                rating: 5,
-                review:
-                  "Very professional team. They helped me understand every detail about the Honda Civic I purchased. Highly recommend!",
-                date: "1 month ago",
-                image: "/satisfied-male-customer-with-car-keys-smiling.jpg",
-              },
-              {
-                name: "Samantha Silva",
-                location: "Kandy",
-                rating: 4,
-                review:
-                  "Great experience overall. The consultation service was particularly helpful in making my decision. Will definitely come back.",
-                date: "3 weeks ago",
-                image: "/professional-woman-customer-happy-with-new-car.jpg",
-              },
-              {
-                name: "Priya Wickramasinghe",
-                location: "Galle",
-                rating: 5,
-                review:
-                  "Best car dealership I've dealt with! Transparent pricing, no hidden charges, and excellent after-sales support.",
-                date: "1 week ago",
-                image: "/happy-female-customer-in-front-of-dealership.jpg",
-              },
-              {
-                name: "Kasun Jayawardena",
-                location: "Colombo",
-                rating: 5,
-                review:
-                  "The technical specialist provided valuable insights. Found exactly what I was looking for within my budget.",
-                date: "2 months ago",
-                image:
-                  "/satisfied-young-man-with-new-car-showing-thumbs-up.jpg",
-              },
-            ].map((testimonial, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                <div className="p-4">
-                  <div className="bg-card rounded-lg p-6 border border-border h-full flex flex-col">
-                    <div className="flex items-start gap-4 mb-4">
-                      <img
-                        src={testimonial.image || "/placeholder.svg"}
-                        alt={testimonial.name}
-                        className="w-16 h-16 rounded-full object-cover border-2 border-primary/20"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center gap-1 mb-2">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`h-4 w-4 ${
-                                i < testimonial.rating
-                                  ? "fill-yellow-500 text-yellow-500"
-                                  : "fill-gray-300 text-gray-300"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                        <p className="font-semibold text-foreground">
-                          {testimonial.name}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {testimonial.location}
-                        </p>
-                      </div>
-                      <Quote className="h-8 w-8 text-primary/20 flex-shrink-0" />
-                    </div>
-
-                    <p className="text-muted-foreground mb-4 flex-grow leading-relaxed">
-                      {testimonial.review}
-                    </p>
-
-                    <div className="pt-4 border-t border-border">
-                      <span className="text-xs text-muted-foreground">
-                        {testimonial.date}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="-left-4" />
-          <CarouselNext className="-right-4" />
-        </Carousel>
       </section>
 
       {/* Newsletter */}
