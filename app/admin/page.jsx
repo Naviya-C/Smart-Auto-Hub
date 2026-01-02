@@ -100,8 +100,6 @@ const vehicleFormDefaults = {
   status: "Available",
 };
 
-const recentRequests = [];
-
 const vehicles = [
   {
     id: 1,
@@ -162,6 +160,8 @@ const videoReviews = [
 ];
 
 export default function AdminPage() {
+
+
   const [activeTab, setActiveTab] = useState("requests");
   const [searchQuery, setSearchQuery] = useState("");
   const [newVideo, setNewVideo] = useState({
@@ -170,25 +170,20 @@ export default function AdminPage() {
     videoId: "",
   });
 
-  const [recentRequests, setRecentRequests] = useState([]);
   const [isAddVehicleOpen, setIsAddVehicleOpen] = useState(false);
   const [isSavingVehicle, setIsSavingVehicle] = useState(false);
   const [vehicleForm, setVehicleForm] = useState(vehicleFormDefaults);
   const [vehicleFormError, setVehicleFormError] = useState("");
   
   const [recentRequests, setRecentRequests] = useState([]);
-  const [notifications, setNotifications] = useState({
-    requests: 0,
-    vehicles: 0,
-    videos: 0,
-    newsletter: 0,
-  });
-  
-  const fetchBookings = async () => {
+    const [adminVehicles, setAdminVehicles] = useState([]);
+
+
+    const fetchBookings = async () => {
     try {
       const res = await fetch("/api/Consultations/getBooking");
       const data = await res.json();
-      setRecentRequests(data);
+      setRecentRequests(Array.isArray(data) ? data :data.data || []);
     } catch (error) {
       console.error("Failed to fetch bookings", error);
     }
@@ -478,17 +473,20 @@ export default function AdminPage() {
                         <td>{request.preferredDate}</td>
                         <td>{request.preferredTime}</td>
                         <td className="px-4 py-2">
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              request.status === "ACCEPTED"
-                                ? "bg-emerald-500/20 text-emerald-700 dark:bg-emerald-500/30 dark:text-emerald-300"
-                                : request.status === "REJECTED"
-                                ? "bg-rose-500/20 text-rose-700 dark:bg-rose-500/30 dark:text-rose-300"
-                                : "bg-amber-500/20 text-amber-700 dark:bg-amber-500/30 dark:text-amber-300"
-                            }`}
-                          >
-                            {request.status}
-                          </span>
+                         <span
+                             className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                 request.status === "ACCEPTED"
+                                     ? "bg-emerald-500/20 text-emerald-700 dark:bg-emerald-500/30 dark:text-emerald-300"
+                                     : request.status === "REJECTED"
+                                         ? "bg-rose-500/20 text-rose-700 dark:bg-rose-500/30 dark:text-rose-300"
+                                         : request.status === "CANCELLED"
+                                             ? "bg-red-500/20 text-red-700 dark:bg-red-500/30 dark:text-red-300"
+                                             : "bg-amber-500/20 text-amber-700 dark:bg-amber-500/30 dark:text-amber-300"
+                             }`}
+                         >
+  {request.status}
+</span>
+
                         </td>
                         <td className="px-4 py-2 flex gap-2">
                           {request.status === "PENDING" && (
