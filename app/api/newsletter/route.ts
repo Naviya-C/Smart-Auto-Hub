@@ -4,11 +4,12 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   const { title, message } = await req.json();
 
-  const broadcast = await prisma.newsletterBroadcast.create({
+  const broadcast = await prisma.newsletter.create({
     data: {
       id: crypto.randomUUID(),
       title,
-      message,
+      subject,
+      content,
     },
   });
 
