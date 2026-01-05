@@ -177,6 +177,7 @@ model Newsletter {
   subject             String
   content             String
   createdAt           DateTime              @default(now())
+  sentAt             DateTime?
   NewsletterBroadcast NewsletterBroadcast[]
 }
 
