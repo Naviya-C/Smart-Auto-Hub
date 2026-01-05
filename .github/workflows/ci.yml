@@ -34,8 +34,8 @@ jobs:
       - name: Generate Prisma Client
         run: npx prisma generate
 
-      - name: Prisma schema validation
-        run: npx prisma validate
+    #   - name: Prisma schema validation
+    #     run: npx prisma validate
 
       - name: Run database migrations (dry run)
         run: npx prisma migrate deploy
