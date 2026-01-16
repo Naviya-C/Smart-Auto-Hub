@@ -47,8 +47,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogFooter,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 import { BRANCHES } from "@/lib/branches";
 import { vehicleAPI } from "@/lib/api/vehicles";
+import { toast } from "sonner";
 
 const stats = [
   {
@@ -182,6 +194,9 @@ export default function AdminPage() {
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  const [deleteVehicleId, setDeleteVehicleId] = useState(null);
+  const [deleteVideoId, setDeleteVideoId] = useState(null);
+
   const fetchBookings = async () => {
     try {
       const res = await fetch("/api/Consultations/getAllBooking");
@@ -289,6 +304,16 @@ export default function AdminPage() {
     }
 
     setIsSavingVehicle(false);
+  };
+
+  const handleDeleteVehicle = (vehicleId) => {
+    setDeleteVehicleId(null);
+    toast.success("Vehicle Deleted Successfully");
+  };
+
+  const handleDeleteVideo = (videoId) => {
+    setDeleteVideoId(null);
+    toast.success("Video review removed from hompage");
   };
 
   const [notifications, setNotifications] = useState({
@@ -517,10 +542,10 @@ export default function AdminPage() {
                               request.status === "ACCEPTED"
                                 ? "bg-emerald-500/20 text-emerald-700 dark:bg-emerald-500/30 dark:text-emerald-300"
                                 : request.status === "REJECTED"
-                                ? "bg-rose-500/20 text-rose-700 dark:bg-rose-500/30 dark:text-rose-300"
-                                : request.status === "CANCELLED"
-                                ? "bg-red-500/20 text-red-700 dark:bg-red-500/30 dark:text-red-300"
-                                : "bg-amber-500/20 text-amber-700 dark:bg-amber-500/30 dark:text-amber-300"
+                                  ? "bg-rose-500/20 text-rose-700 dark:bg-rose-500/30 dark:text-rose-300"
+                                  : request.status === "CANCELLED"
+                                    ? "bg-red-500/20 text-red-700 dark:bg-red-500/30 dark:text-red-300"
+                                    : "bg-amber-500/20 text-amber-700 dark:bg-amber-500/30 dark:text-amber-300"
                             }`}
                           >
                             {request.status}
@@ -859,10 +884,10 @@ export default function AdminPage() {
                               vehicle.status === "Available"
                                 ? "bg-green-500/20 text-green-700"
                                 : vehicle.status === "Shipped"
-                                ? "bg-orange-500/20 text-orange-700"
-                                : vehicle.status === "Reserved"
-                                ? "bg-blue-500/20 text-blue-700"
-                                : "bg-red-500/20 text-red-700"
+                                  ? "bg-orange-500/20 text-orange-700"
+                                  : vehicle.status === "Reserved"
+                                    ? "bg-blue-500/20 text-blue-700"
+                                    : "bg-red-500/20 text-red-700"
                             }`}
                           >
                             {vehicle.status}
@@ -875,9 +900,36 @@ export default function AdminPage() {
                           <Button size="sm" variant="ghost">
                             <Edit size={16} />
                           </Button>
-                          <Button size="sm" variant="ghost">
-                            <Trash2 size={16} />
-                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button size="sm" variant="ghost">
+                                <Trash2 size={16} />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Delete Vehicle
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Are you sure you want to delete "
+                                  {vehicle.name}"? This action can not be
+                                  undone.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <div className="flex justify-end gap-3">
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() =>
+                                    handleDeleteVehicle(vehicle.id)
+                                  }
+                                  className="bg-red-600 hover:bg-red-700"
+                                >
+                                  Delete
+                                </AlertDialogAction>
+                              </div>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </div>
                       </div>
                     </div>
@@ -1007,13 +1059,35 @@ export default function AdminPage() {
                       <Button size="sm" variant="ghost">
                         <Edit size={16} />
                       </Button>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="text-destructive"
-                      >
-                        <Trash2 size={16} />
-                      </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="text-red-600 hover:text-red-700"
+                          >
+                            <Trash2 size={16} />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Remove Video</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to remove this video from
+                              the homepage? This cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <div className="flex justify-end gap-3">
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleDeleteVideo(video.id)}
+                              className="bg-red-600 hover:bg-red-700"
+                            >
+                              Remove
+                            </AlertDialogAction>
+                          </div>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </div>
                   </div>
                 ))}

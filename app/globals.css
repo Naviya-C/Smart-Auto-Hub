@@ -3,7 +3,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Updated theme to match Sameera Auto Traders logo colors (red, black, white) */
+/* Theme to match Sameera Auto Traders logo colors (red, black, white) */
 :root {
   /* Backgrounds - Clean white with subtle warm tint */
   --background: oklch(1 0 0);
