@@ -261,7 +261,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="bg-card rounded-xl p-8 border border-border text-center hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-card rounded-xl p-8 border border-border text-center hover:shadow-xl transition-all duration-300 group animation-pop-in delay-100">
               <div className="inline-flex items-center justify-center w-20 h-20 bg-linear-to-br from-blue-400 to-cyan-500 rounded-2xl mb-6 shadow-lg group-hover:scale-110 transition-transform">
                 <Users className="text-white" size={36} />
               </div>
@@ -272,7 +272,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="bg-card rounded-xl p-8 border border-border text-center hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-card rounded-xl p-8 border border-border text-center hover:shadow-xl transition-all duration-300 group animation-pop-in delay-200">
               <div className="inline-flex items-center justify-center w-20 h-20 bg-linear-to-br from-purple-400 to-pink-500 rounded-2xl mb-6 shadow-lg group-hover:scale-110 transition-transform">
                 <Zap className="text-white" size={36} />
               </div>
@@ -283,7 +283,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="bg-card rounded-xl p-8 border border-border text-center hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-card rounded-xl p-8 border border-border text-center hover:shadow-xl transition-all duration-300 group animation-pop-in delay-300">
               <div className="inline-flex items-center justify-center w-20 h-20 bg-linear-to-br from-green-400 to-emerald-500 rounded-2xl mb-6 shadow-lg group-hover:scale-110 transition-transform">
                 <Target className="text-white" size={36} />
               </div>
@@ -298,11 +298,11 @@ export default function AboutPage() {
 
         {/* Why Choose Us */}
         <section>
-          <h2 className="text-3xl font-bold mb-8">
+          <h2 className="text-3xl font-bold mb-8 animate-text-reveal">
             Why Choose Sameera Auto Traders?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-card rounded-lg p-6 border border-border">
+            <div className="bg-card rounded-lg p-6 border border-border animate-bounce-in-up">
               <h3 className="font-bold text-lg mb-3">Wide Selection</h3>
               <p className="text-muted-foreground">
                 Browse from hundreds of quality vehicles across multiple
@@ -310,7 +310,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="bg-card rounded-lg p-6 border border-border">
+            <div className="bg-card rounded-lg p-6 border border-border animate-bounce-in-up delay-100">
               <h3 className="font-bold text-lg mb-3">Expert Support</h3>
               <p className="text-muted-foreground">
                 Our technical consultants are available to answer your questions
@@ -318,7 +318,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="bg-card rounded-lg p-6 border border-border">
+            <div className="bg-card rounded-lg p-6 border border-border animate-bounce-in-up delay-200">
               <h3 className="font-bold text-lg mb-3">Online Convenience</h3>
               <p className="text-muted-foreground">
                 Search, compare, consult, and book appointments entirely online
@@ -326,7 +326,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="bg-card rounded-lg p-6 border border-border">
+            <div className="bg-card rounded-lg p-6 border border-border animate-bounce-in-up delay-300">
               <h3 className="font-bold text-lg mb-3">Competitive Pricing</h3>
               <p className="text-muted-foreground">
                 Get the best value for your money with our transparent and
@@ -334,7 +334,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="bg-card rounded-lg p-6 border border-border">
+            <div className="bg-card rounded-lg p-6 border border-border animate-bounce-in-up delay-400">
               <h3 className="font-bold text-lg mb-3">Flexible Financing</h3>
               <p className="text-muted-foreground">
                 Use our leasing calculator to explore payment options that work
@@ -342,7 +342,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="bg-card rounded-lg p-6 border border-border">
+            <div className="bg-card rounded-lg p-6 border border-border animate-bounce-in-up delay-500">
               <h3 className="font-bold text-lg mb-3">Customer Service</h3>
               <p className="text-muted-foreground">
                 We're committed to providing exceptional support before, during,
@@ -353,11 +353,11 @@ export default function AboutPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-linear-to-r from-primary to-accent rounded-lg p-12 text-center text-primary-foreground">
-          <h2 className="text-3xl font-bold mb-4">
+        <section className="bg-linear-to-r from-primary to-accent rounded-lg p-12 text-center text-primary-foreground animate-slide-in-down">
+          <h2 className="text-3xl font-bold mb-4 animate-text-reveal">
             Ready to Find Your Perfect Vehicle?
           </h2>
-          <p className="text-lg mb-8 opacity-90">
+          <p className="text-lg mb-8 opacity-90 animate-text-reveal stagger-1">
             Explore our inventory or schedule a consultation with our experts
             today.
           </p>
