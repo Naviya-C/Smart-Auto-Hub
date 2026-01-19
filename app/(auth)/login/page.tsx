@@ -4,7 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook, FaEye, FaEyeSlash } from "react-icons/fa";
+import {FaFacebook, FaEye, FaEyeSlash, FaGithub} from "react-icons/fa";
 import ChatBot from "@/components/ChatBot";
 
 export default function LoginPage() {
@@ -140,18 +140,18 @@ export default function LoginPage() {
                     <div className="grid grid-cols-2 gap-3">
                         <button
                             onClick={() => signIn("google")}
-                            className="flex items-center justify-center gap-2 h-10 border rounded-lg hover:bg-gray-100"
+                            className="flex items-center justify-center gap-2 h-10 border rounded-lg hover:bg-gray-100 dark:text-black"
                         >
                             <FcGoogle size={20} />
                             Google
                         </button>
 
                         <button
-                            onClick={() => signIn("facebook")}
-                            className="flex items-center justify-center gap-2 h-10 border rounded-lg hover:bg-gray-100"
+                            onClick={() => signIn("github")}
+                            className="flex items-center justify-center gap-2 h-10 border rounded-lg dark:text-black hover:bg-gray-100"
                         >
-                            <FaFacebook size={20} className="text-blue-600" />
-                            Facebook
+                            <FaGithub size={20} className="text-blue-600" />
+                            Github
                         </button>
                     </div>
 
