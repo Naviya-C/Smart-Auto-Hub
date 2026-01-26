@@ -29,6 +29,7 @@ import {
   ExternalLink,
   RefreshCcw,
   Plus,
+  Info,
 } from "lucide-react";
 
 import NewsletterTable from "./NewsletterTable";
@@ -600,7 +601,7 @@ export default function AdminPage() {
                         <td className="px-4 py-2 flex gap-2">
                           {request.status === "PENDING" && (
                             <>
-                              <button
+                              {/* <button
                                 className="bg-green-600 text-white px-2 py-1 rounded text-xs"
                                 onClick={() =>
                                   approveBookings(request.id, "ACCEPTED")
@@ -615,7 +616,14 @@ export default function AdminPage() {
                                 }
                               >
                                 Decline
-                              </button>
+                              </button> */}
+                              <Button
+                                size="sm"
+                                className="text-xs bg-primary hover:bg-primary/90"
+                              >
+                                <Info size={14} />
+                                Send to an Advisor
+                              </Button>
                             </>
                           )}
 
