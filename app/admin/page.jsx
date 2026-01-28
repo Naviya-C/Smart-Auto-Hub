@@ -30,6 +30,10 @@ import {
   RefreshCcw,
   Plus,
   Info,
+  UserX,
+  FileUser,
+  UserCog,
+  Binoculars,
 } from "lucide-react";
 
 import NewsletterTable from "./NewsletterTable";
@@ -71,7 +75,7 @@ import {
   deleteVideoReview,
 } from "@/app/actions/videoActions";
 
-import AdvisorSelectionModal from "@/components/AdvisorSelectionModal";
+import AdvisorSelectionModal from "@/components/advisor-selection-modal";
 
 const stats = [
   {
@@ -194,6 +198,7 @@ export default function AdminPage() {
     description: "",
     videoId: "",
   });
+  const [videoReviews, setVideoReviews] = useState([]);
 
   const [isAddVehicleOpen, setIsAddVehicleOpen] = useState(false);
   const [isSavingVehicle, setIsSavingVehicle] = useState(false);
@@ -256,7 +261,7 @@ export default function AdminPage() {
     loadVideos();
   }, []);
 
-  const loadVidoes = async () => {
+  const loadVideos = async () => {
     const result = await getVideoReviews();
     if (result.success) {
       setVideoReviews(result.data);
@@ -351,7 +356,7 @@ export default function AdminPage() {
     if (result.success) {
       toast.success("Video Review added successfully");
       setNewVideo({ title: "", description: "", videoId: "" }); //Resets form
-      loadVidoes();
+      loadVideos();
     } else {
       toast.error("Failed to add video");
     }
@@ -362,7 +367,7 @@ export default function AdminPage() {
 
     if (result.success) {
       toast.success("Video review removed from homepage");
-      loadVidoes(); //Refreshes the List
+      loadVideos(); //Refreshes the List
     } else {
       toast.error("Failed to remove the video");
     }
@@ -482,7 +487,7 @@ export default function AdminPage() {
                 count: 0,
               },
             ].map((tab) => (
-              <button
+              <Button
                 key={tab.id}
                 // onClick={() => setActiveTab(tab.id)}
                 onClick={() => handleTabChange(tab.id)}
@@ -499,7 +504,7 @@ export default function AdminPage() {
                     {tab.count > 9 ? "9+" : tab.count}
                   </span>
                 )}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
@@ -631,7 +636,7 @@ export default function AdminPage() {
                                   setIsAdvisorModalOpen(true);
                                 }}
                               >
-                                <UserStar size={14} />
+                                <Binoculars size={14} />
                                 Send to an Advisor
                               </Button>
                             </>
@@ -677,14 +682,16 @@ export default function AdminPage() {
                               </DialogFooter>
                             </DialogContent>
                           </Dialog> */}
-                          <button
-                            className="bg-blue-600 text-white px-2 py-1 rounded text-xs"
+                          <Button
+                            size="sm"
+                            className="bg-blue-600 text-white text-xs hover:bg-blue-900"
                             onClick={() =>
                               sendAdminMessagesForBookings(request.id)
                             }
                           >
+                            <UserCog size={14} />
                             Send Message
-                          </button>
+                          </Button>
                         </td>
                       </tr>
                     ))}
