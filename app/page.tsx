@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -9,41 +6,19 @@ import {
   ChevronRight,
   Search,
   Calendar,
-  MessageSquare,
-  Star,
-  Quote,
   Play,
-  Clock,
-  Car,
-  Loader2,
-  Newspaper,
   MessageCircle,
 } from "lucide-react";
 //import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { useSession } from "next-auth/react";
-import { handleSubscribe } from "@/app/APITriggers/handleSubscribe";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import ChatBot from "@/components/ChatBot";
-import { useRouter } from "next/navigation";
-import { localStorageAPI } from "@/lib/storage/localStorage.js";
+
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 
 import { getVideoReviews } from "@/app/actions/videoActions";
+import UserWelcome from "@/components/home/user-welcome";
+import HomeSearchbar from "@/components/home/home-searchbar";
+import TestimonialsCarousel from "@/components/home/testimonials-carousel";
+import NewsletterForm from "@/components/home/newsletter-form";
 
 interface Vehicle {
   id: number;
@@ -136,83 +111,18 @@ const featuredVehicles: Vehicle[] = [
 //   },
 // ];
 
-export default function Home() {
-  const router = useRouter();
-  const [email, setEmail] = useState<string>("");
-  const { data: session } = useSession();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("all");
-  const [searchHistory, setSearchHistory] = useState([]);
-  const [showHistory, setShowHistory] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [videoReviews, setVideoReviews] = useState<VideoReview[]>([]);
-
-  const handleSearch = () => {
-    if (searchQuery.trim()) {
-      const updated = localStorageAPI.addSearchHistory(searchQuery.trim());
-      setSearchHistory(updated);
-    }
-    const params = new URLSearchParams();
-    if (searchQuery) params.set("search", searchQuery);
-    if (selectedLocation !== "all") params.set("location", selectedLocation);
-    router.push(`/vehicles?${params.toString()}`);
-  };
-
-  const handleKeyPass = (e) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  };
-
-  const clearHistory = () => {
-    localStorageAPI.clearSearchHistory();
-    setSearchHistory([]);
-  };
-
-  useEffect(() => {
-    setSearchHistory(localStorageAPI.getSearchHistory());
-  }, []);
-
-  const selectHistoryItem = (term) => {
-    setSearchQuery(term);
-    setShowHistory(false);
-  };
-
-  const onSubscribeWrapper = async () => {
-    if (!email) return handleSubscribe(email, session?.user?.id, setEmail); // Let the helper handle empty email validation
-
-    setIsLoading(true);
-
-    try {
-      await handleSubscribe(email, session?.user?.id, setEmail);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const fetchVideos = async () => {
-      const result = await getVideoReviews();
-      if (result.success) {
-        setVideoReviews(result.data as VideoReview[]);
-      }
-    };
-
-    fetchVideos();
-  }, []);
+export default async function Home() {
+  const videoData = await getVideoReviews();
+  const videoReviews = videoData.success
+    ? (videoData.data as VideoReview[])
+    : [];
 
   return (
     <div className="min-h-screen bg-background ">
       <Header />
 
       {/* SHOW LOGGED USER */}
-      {session && (
-        <div className="text-center py-4 bg-green-100 text-green-700">
-          Welcome, <b>{session.user?.name || session.user?.email}</b> 👋
-        </div>
-      )}
+      <UserWelcome />
 
       {/* Hero Section */}
       <section
@@ -224,18 +134,6 @@ export default function Home() {
           backgroundPosition: "center",
         }}
       >
-        {/* <div
-          className="absolute inset-0 animate-image-reveal"
-          style={{
-            backgroundImage:
-              "url(/placeholder.svg?height=576&width=1920&query=professional luxury car dealership showroom exterior with modern glass building)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            animation:
-              "imageReveal 1.2s ease-out, kenBurnsZoom 4s ease-out forwards",
-          }}
-        ></div> */}
-
         <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/60 to-black/30"></div>
         <div className="relative max-w-7xl mx-auto px-4 w-full">
           <div className="max-w-2xl space-y-6">
@@ -259,76 +157,7 @@ export default function Home() {
 
       {/* Quick Search Bar */}
       <section className="max-w-7xl mx-auto px-4 -mt-12 relative z-10 mb-16">
-        <div className="bg-card rounded-lg shadow-lg p-6 border border-border">
-          <div className="flex flex-col md:flex-row gap-4 relative">
-            <div className="flex-1 relative">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search by Make, Model..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyPress={handleKeyPass}
-                  onFocus={() => setShowHistory(true)}
-                  onBlur={() =>
-                    setTimeout(() => {
-                      setShowHistory(false);
-                    }, 200)
-                  }
-                  className="w-full px-6 py-4 rounded-lg bg-input border-2 border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
-                />
-                <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
-              </div>
-
-              {showHistory && searchHistory.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-lg shadow-lg z-50 overflow-hidden">
-                  <div className="flex items-center justify-between px-4 py-2 border-b border-border">
-                    <span className="text-sm font-semibold text-muted-foreground">
-                      Recent Searches
-                    </span>
-                    <button
-                      onClick={clearHistory}
-                      className="text-xs text-muted-foreground hover:text-foreground transition"
-                    >
-                      Clear
-                    </button>
-                  </div>
-                  {searchHistory.map((term, index) => (
-                    <button
-                      key={index}
-                      onClick={() => selectHistoryItem(term)}
-                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-secondary/50 transition text-left"
-                    >
-                      <Clock className="w-4 h-4 text-muted-foreground" />
-                      <span>{term}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-            <Select
-              value={selectedLocation}
-              onValueChange={setSelectedLocation}
-            >
-              <SelectTrigger className="flex-1 py-6 px-6 rounded-lg bg-input border-2 border-border text-foreground">
-                <SelectValue placeholder="Filter by Location/Branch..." />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Locations</SelectItem>
-                <SelectItem value="nugegoda">Nugegoda Branch</SelectItem>
-                <SelectItem value="colombo">Colombo Branch</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button
-              onClick={handleSearch}
-              size="lg"
-              className="px-8 h-13 font-semibold shadow-lg"
-            >
-              <Search size={18} className="mr-2" />
-              Search
-            </Button>
-          </div>
-        </div>
+        <HomeSearchbar />
       </section>
 
       {/* Featured Vehicles */}
@@ -607,118 +436,7 @@ export default function Home() {
         <h2 className="text-3xl font-bold mb-12 text-center">
           What Our Customers Say
         </h2>
-
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          plugins={[
-            Autoplay({
-              delay: 4000,
-            }),
-          ]}
-          className="w-full fade-in-up delay-200"
-        >
-          <CarouselContent>
-            {[
-              {
-                name: "Rajith Fernando",
-                location: "Colombo",
-                rating: 5,
-                review:
-                  "Excellent service! Found the perfect Toyota Prius for my family. The online booking system made everything so convenient.",
-                date: "2 weeks ago",
-                image:
-                  "/professional-sri-lankan-businessman-customer-portr.jpg",
-              },
-              {
-                name: "Nimal Perera",
-                location: "Nugegoda",
-                rating: 5,
-                review:
-                  "Very professional team. They helped me understand every detail about the Honda Civic I purchased. Highly recommend!",
-                date: "1 month ago",
-                image: "/satisfied-male-customer-with-car-keys-smiling.jpg",
-              },
-              {
-                name: "Samantha Silva",
-                location: "Kandy",
-                rating: 4,
-                review:
-                  "Great experience overall. The consultation service was particularly helpful in making my decision. Will definitely come back.",
-                date: "3 weeks ago",
-                image: "/professional-woman-customer-happy-with-new-car.jpg",
-              },
-              {
-                name: "Priya Wickramasinghe",
-                location: "Galle",
-                rating: 5,
-                review:
-                  "Best car dealership I've dealt with! Transparent pricing, no hidden charges, and excellent after-sales support.",
-                date: "1 week ago",
-                image: "/happy-female-customer-in-front-of-dealership.jpg",
-              },
-              {
-                name: "Kasun Jayawardena",
-                location: "Colombo",
-                rating: 5,
-                review:
-                  "The technical specialist provided valuable insights. Found exactly what I was looking for within my budget.",
-                date: "2 months ago",
-                image:
-                  "/satisfied-young-man-with-new-car-showing-thumbs-up.jpg",
-              },
-            ].map((testimonial, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                <div className="p-4">
-                  <div className="bg-card rounded-lg p-6 border border-border h-full flex flex-col">
-                    <div className="flex items-start gap-4 mb-4">
-                      <img
-                        src={testimonial.image || "/placeholder.svg"}
-                        alt={testimonial.name}
-                        className="w-16 h-16 rounded-full object-cover border-2 border-primary/20"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center gap-1 mb-2">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`h-4 w-4 ${
-                                i < testimonial.rating
-                                  ? "fill-yellow-500 text-yellow-500"
-                                  : "fill-gray-300 text-gray-300"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                        <p className="font-semibold text-foreground">
-                          {testimonial.name}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {testimonial.location}
-                        </p>
-                      </div>
-                      <Quote className="h-8 w-8 text-primary/20 shrink-0" />
-                    </div>
-
-                    <p className="text-muted-foreground mb-4 grow leading-relaxed">
-                      {testimonial.review}
-                    </p>
-
-                    <div className="pt-4 border-t border-border">
-                      <span className="text-xs text-muted-foreground">
-                        {testimonial.date}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="-left-4" />
-          <CarouselNext className="-right-4" />
-        </Carousel>
+        <TestimonialsCarousel />
       </section>
 
       {/* YT Reviews */}
@@ -756,14 +474,11 @@ export default function Home() {
         {/* Featured Video */}
         {videoReviews.length > 0 && (
           <div className="mb-12">
-            <div
+            <a
+              href={`https://www.youtube.com/watch?v=${videoReviews[0].videoId}`}
               className="relative h-80 md:h-96 lg:h-[28rem] rounded-2xl overflow-hidden group cursor-pointer bg-muted border border-border shadow-2xl hover:shadow-3xl transition-shadow duration-300 animate-slide-in-down"
-              onClick={() =>
-                window.open(
-                  `https://www.youtube.com/watch?v=${videoReviews[0].videoId}`,
-                  "_blank",
-                )
-              }
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <Image
                 src={`https://img.youtube.com/vi/${videoReviews[0].videoId}/maxresdefault.jpg`}
@@ -800,7 +515,7 @@ export default function Home() {
                   {videoReviews[0].uploadDate}
                 </p>
               </div>
-            </div>
+            </a>
           </div>
         )}
 
@@ -810,19 +525,16 @@ export default function Home() {
             <h3 className="text-2xl font-bold mb-6">More Reviews</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {videoReviews.slice(1).map((video, index) => (
-                <div
+                <a
                   key={video.id}
                   className="bg-card rounded-xl overflow-hidden border border-border hover:shadow-2xl hover:border-primary/50 transition-all duration-300 group cursor-pointer hover-glow fade-in-up"
                   style={{
                     opacity: 0,
                     animationDelay: `${(index + 1) * 0.1}s`,
                   }}
-                  onClick={() =>
-                    window.open(
-                      `https://www.youtube.com/watch?v=${video.videoId}`,
-                      "_blank",
-                    )
-                  }
+                  href={`https://www.youtube.com/watch?v=${video.videoId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <div className="relative h-48 bg-muted overflow-hidden">
                     <img
@@ -858,7 +570,7 @@ export default function Home() {
                       {video.uploadDate}
                     </p>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
@@ -877,45 +589,7 @@ export default function Home() {
               Subscribe to our newsletter for exclusive deals and new vehicle
               arrivals.
             </p>
-
-            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    //handleSubscribe(email, session?.user?.id, setEmail);
-                    onSubscribeWrapper();
-                  }
-                }}
-                disabled={isLoading}
-                className="flex-1 px-6 py-4 rounded-lg bg-white/20 border-2 border-white/30 text-white placeholder:text-white/70 focus:outline-none focus:ring-4 focus:ring-white/30 backdrop-blur-sm"
-              />
-              <Button
-                type="button"
-                variant="secondary"
-                // onClick={() =>
-                //   handleSubscribe(email, session?.user?.id, setEmail)
-                // }
-                onClick={() => onSubscribeWrapper()}
-                disabled={isLoading}
-                className="h-15 font-semibold shadow-lg hover:scale-105 transition-transform duration-300"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 animate-spin" size={20} />
-                    Subscribing
-                  </>
-                ) : (
-                  <>
-                    <Newspaper className="mr-2" size={20} />
-                    Subscribe
-                  </>
-                )}
-              </Button>
-            </div>
+            <NewsletterForm />
           </div>
         </div>
       </section>
