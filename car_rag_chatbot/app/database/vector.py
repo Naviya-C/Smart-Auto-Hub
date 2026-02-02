@@ -32,7 +32,7 @@ def search_car_vectors(query_embedding: List[float], top_k: int = 5) -> List[Dic
     """
     try:
         response = supabase_client.rpc(
-            "match_car_vectors",
+            "match_car_vectors_new",
             {
                 "query_embedding": query_embedding,
                 "match_count": top_k

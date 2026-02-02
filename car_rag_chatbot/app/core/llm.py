@@ -7,7 +7,7 @@ from app.core.prompts import build_prompt
 
 logger = get_logger(__name__) 
 
-MODEL_NAME = "microsoft/phi-3-mini-4k-instruct" # 32K tokens
+MODEL_NAME = "microsoft/phi-3-mini-4k-instruct" # 32K vocabulary
 
 _tokenizer = None
 _model = None
@@ -26,6 +26,7 @@ def load_llm():
         _tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
         _model = AutoModelForCausalLM.from_pretrained(
             MODEL_NAME,
+            torch_dtype=torch.float16,
             device_map = "auto"
         )
         _model.eval()
@@ -49,19 +50,15 @@ def generate_response(
 
     if not retrieved_cars:
         return "I couldn't find any cars matching your request."
-
-    # Ensure model & tokenizer are loaded
+    
     load_llm()
-
-    # Build grounded prompt
+    
     prompt = build_prompt(user_query, retrieved_cars)
 
     try:
-        # Tokenize prompt
         inputs = _tokenizer(prompt, return_tensors="pt")
         inputs = inputs.to(_model.device)
 
-        # Generate text (inference mode)
         with torch.no_grad():
             outputs = _model.generate(
                 **inputs,
@@ -70,7 +67,6 @@ def generate_response(
                 do_sample=False
             )
 
-        # Decode output tokens to text
         response = _tokenizer.decode(
             outputs[0],
             skip_special_tokens=True
@@ -79,7 +75,6 @@ def generate_response(
         return response.strip()
 
     except RuntimeError as re:
-        # GPU / memory issues
         if "out of memory" in str(re).lower():
             torch.cuda.empty_cache()
             return "The request was too large. Please try a shorter question."
