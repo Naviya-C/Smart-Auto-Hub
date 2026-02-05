@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -27,44 +27,6 @@ import {
   Settings,
 } from "lucide-react";
 
-const advisorBookings = [
-  {
-    id: 1,
-    customer: "Ahmed Hassan",
-    email: "ahmed@email.com",
-    phone: "+94 771234567",
-    type: "Vehicle Inspection",
-    vehicle: "Toyota Corolla",
-    date: "18/11/2025",
-    time: "10:00 AM",
-    status: "Confirmed",
-    notes: "Customer wants detailed inspection before purchase",
-  },
-  {
-    id: 2,
-    customer: "Samantha Lee",
-    email: "samantha@email.com",
-    phone: "+94 772345678",
-    type: "Technical Consultation",
-    vehicle: "Honda Civic",
-    date: "18/11/2025",
-    time: "2:30 PM",
-    status: "Confirmed",
-    notes: "Questions about hybrid technology",
-  },
-  {
-    id: 3,
-    customer: "Roshan Kumar",
-    email: "roshan@email.com",
-    phone: "+94 773456789",
-    type: "Trade-in Evaluation",
-    vehicle: "Suzuki Swift",
-    date: "19/11/2025",
-    time: "11:00 AM",
-    status: "Pending",
-    notes: "Evaluating current vehicle for trade-in",
-  },
-];
 
 const advisorInfo = {
   name: "Sarah Anderson",
@@ -78,18 +40,52 @@ const advisorInfo = {
 };
 
 export default function AdvisorPage() {
+
   const [activeTab, setActiveTab] = useState("bookings");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [contactMethod, setContactMethod] = useState("email");
+  const [advisorBookings,setAdvisorBookings] = useState([]);
 
-  const filteredBookings = advisorBookings.filter(
-    (booking) =>
-      booking.customer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      booking.email.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
 
-  return (
+    useEffect(() => {
+        const fetchAdvisorBookings = async () => {
+            try {
+                const res = await fetch("/api/Consultations/advisorBookings");
+
+                if (!res.ok) {
+                    console.error("API error:", res.status);
+                    setAdvisorBookings([]);
+                    return;
+                }
+
+                const data = await res.json();
+                setAdvisorBookings(Array.isArray(data) ? data : []);
+            } catch (err) {
+                console.error("Fetch failed:", err);
+                setAdvisorBookings([]);
+            }
+        };
+
+        fetchAdvisorBookings();
+    }, []);
+
+
+
+    const filteredBookings = Array.isArray(advisorBookings)
+        ? advisorBookings.filter(
+            (booking) =>
+                booking.customer
+                    ?.toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                booking.email
+                    ?.toLowerCase()
+                    .includes(searchQuery.toLowerCase())
+        )
+        : [];
+
+
+    return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
 
