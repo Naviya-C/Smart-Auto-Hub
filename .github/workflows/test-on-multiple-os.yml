@@ -38,7 +38,7 @@ jobs:
     - name: Deploy to server
       run: |
         echo "Deploying application on ${{ matrix.os }}..."
-        # Add your deployment commands here
+
 
   notify:
     name: Notify Team
@@ -64,4 +64,3 @@ jobs:
     - name: Cleanup
       run: |
         echo "Cleaning up resources..."
-        # Add your cleanup commands here
