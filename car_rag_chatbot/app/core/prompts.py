@@ -1,43 +1,24 @@
 from typing import List, Dict
 
-def build_prompt(user_query: str, retrieved_cars: List[Dict]) -> str:
+
+def build_prompt(retrieved_cars: List[Dict]) -> str:
     """
-    Build a grounded prompt for the language model.
-    The model must answer ONLY using the provided context.
+    Build ONLY contextual car information.
+    This function must NOT include roles, instructions,
+    or model-specific tokens.
     """
 
-    if not retrieved_cars: 
-        return (
-            "You are a helpful car sales assistant.\n\n"
-            "There is no available data to answer the user's question.\n\n"
-            f"User question:\n{user_query}\n\n"
-            "Answer:"
-        )
+    if not retrieved_cars:
+        return "No relevant car listings are available."
 
-    context_lines = []
+    lines: list[str] = []
 
     for idx, car in enumerate(retrieved_cars, start=1):
-        context_lines.append(
+        lines.append(
             f"{idx}. {car['brand']} {car['model']} ({car['year']})\n"
             f"   Price: {car['price'] / 1_000_000:.1f}M LKR\n"
             f"   Location: {car['location']}\n"
-            f"   Reason: {car['match_reason']}"
+            f"   Details: {car['match_reason']}"
         )
 
-    context = "\n".join(context_lines)
-
-    prompt = f"""
-You are a helpful car sales assistant.
-You must answer ONLY using the information provided below.
-If the answer is not in the context, say you don't have enough information.
-
-Context:
-{context}
-
-User question:
-{user_query}
-
-Answer clearly and concisely:
-""".strip()
-
-    return prompt
+    return "\n".join(lines) 

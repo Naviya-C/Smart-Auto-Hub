@@ -3,6 +3,8 @@ from typing import List, Dict
 from app.database.supabase_client import supabase_client
 from app.core.embeddings import embed_text
 from app.utils.logger import get_logger
+from app.core.filter import CarFilters, apply_filters
+from app.core.intent import extract_filters_from_query
 
 logger = get_logger(__name__)
 
@@ -107,16 +109,7 @@ def merge_results(vector_results: List[Dict],car_records: List[Dict]) -> List[Di
 # 5. Main retrieval pipeline (ENTRY POINT)
 # --------------------------------------------------
 
-def retrieve_cars_for_query(query: str,top_k: int = 5) -> List[Dict]:
-    """
-    End-to-end retrieval pipeline.
-
-    Steps:
-    1. Embed user query
-    2. Vector similarity search
-    3. Fetch car metadata
-    4. Merge and return results
-    """
+def retrieve_cars_for_query(query: str, top_k: int = 10) -> list[dict]:
     query_embedding = embed_query(query)
 
     vector_results = search_car_vectors(
@@ -128,7 +121,12 @@ def retrieve_cars_for_query(query: str,top_k: int = 5) -> List[Dict]:
         return []
 
     car_ids = [row["car_id"] for row in vector_results]
-
     car_records = fetch_car_details(car_ids)
 
-    return merge_results(vector_results, car_records)
+    merged = merge_results(vector_results, car_records)
+
+    filters = extract_filters_from_query(query)
+    filtered = apply_filters(merged, filters)
+
+    return filtered
+
