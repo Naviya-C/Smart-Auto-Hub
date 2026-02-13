@@ -22,3 +22,4 @@ def build_prompt(retrieved_cars: List[Dict]) -> str:
         )
 
     return "\n".join(lines) 
+
