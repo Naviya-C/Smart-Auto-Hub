@@ -13,7 +13,7 @@ def chat_endpoint(request: ChatRequest):
     retrieved = retrieve_cars_for_query(request.query)
     
     intent, confidence = predict_intent(request.query)
-    if confidence < 0.6:
+    if confidence < 0.7:
         intent = "fallback_help"
         
     if intent in ["search_car", "sort_year", "sort_mileage", "compare_cars", "sort_price","fallback_help"]:
